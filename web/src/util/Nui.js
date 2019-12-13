@@ -1,11 +1,7 @@
 export default {
   async send(event, data = {}) {
-    /// #if DEBUG
-    return new Promise(resolve => setTimeout(resolve, 100));
-    /// #endif
-
     /* eslint-disable no-unreachable */
-    return fetch(`http://<resource>/${event}`, {
+    return fetch(`http://disc-inventoryhud/${event}`, {
       method: 'post',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',

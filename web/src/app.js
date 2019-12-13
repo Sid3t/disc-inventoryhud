@@ -9,16 +9,28 @@ import App from 'containers/App';
 import WindowListener from 'containers/WindowListener';
 
 import configureStore from './configureStore';
+import Nui from './util/Nui';
+import { hideApp } from './containers/App/actions';
 
 const initialState = {};
 const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('app');
 
+const closeUI = (event) => {
+  console.log(event.keyCode);
+  if (event.keyCode === 27) {
+    Nui.send('CloseUI');
+    props.dispatch(hideApp);
+  }
+};
+
+
 const render = () => {
+
   ReactDOM.render(
     <Provider store={store}>
       <WindowListener>
-        <App />
+        <App/>
       </WindowListener>
     </Provider>,
     MOUNT_NODE,

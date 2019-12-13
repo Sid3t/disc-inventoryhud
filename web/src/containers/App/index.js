@@ -1,22 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { makeStyles, MuiThemeProvider } from '@material-ui/core';
+import Theme from '../../../theme/Theme';
+import Screen from '../../components/UI/AppScreen/AppScreen';
+import Paper from '@material-ui/core/Paper';
+import CloseButton from '../../components/UI/CloseButton/CloseButton';
+import Inventory from '../../components/Inventory/Inventory';
+import Grid from '@material-ui/core/Grid';
 
-import styled from 'styled-components';
+const useStyles = makeStyles(theme => ({
 
-import GlobalStyle from '../../globalStyles';
+}));
 
-const H1 = styled('h1')`
-  font-family: Pricedown;
-  visibility: ${props => props.hidden};
-`;
 
-const App = ({ hidden }) => (
-  <div>
-    <H1 hidden={hidden}>Hello world</H1>
-    <GlobalStyle />
-  </div>
-);
+const App = ({ hidden }) => {
+  const classes = useStyles();
+
+
+  return (
+    <MuiThemeProvider theme={Theme}>
+      <Screen hidden={hidden}>
+
+      </Screen>
+    </MuiThemeProvider>
+
+  );
+};
 
 App.propTypes = {
   hidden: PropTypes.bool.isRequired,
