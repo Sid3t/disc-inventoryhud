@@ -20,7 +20,7 @@ export default connect()((props) => {
     const classes = useStyles();
     const handleClose = event => {
       props.dispatch(hideApp);
-      Nui.send('CloseUi');
+      Nui.send('CloseUI');
     };
 
     return (

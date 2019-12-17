@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import DescriptionBox from '../../DescriptionBox/DescriptionBox';
+import DescriptionBox from '../DescriptionBox/DescriptionBox';
 
 const useStyles = makeStyles(theme => ({
   inventory: {

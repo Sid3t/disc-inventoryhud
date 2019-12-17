@@ -3,7 +3,12 @@ import { grey, red } from '@material-ui/core/colors';
 
 const theme = createMuiTheme(
   {
-    typography: {},
+    typography: {
+      fontFamily: [
+        '"Segoe UI"',
+        'Roboto',
+      ].join(','),
+    },
     palette: {
       type: 'dark',
       primary: {
@@ -17,8 +22,14 @@ const theme = createMuiTheme(
     overrides: {
       MuiPaper: {
         root: {
-          backgroundColor: 'rgba(44,47,51,0.6)',
+          backgroundColor: 'rgba(44,47,51,0.1)',
         },
+        elevation1: {
+          backgroundColor: 'rgba(44,47,51,0.8)',
+        },
+        elevation24: {
+          backgroundColor: 'rgba(44,47,51,0.8)',
+        }
       },
       MuiDivider: {
         root: {
@@ -28,6 +39,21 @@ const theme = createMuiTheme(
       MuiFab: {
         root: {
           backgroundColor: '#2c2f33',
+        },
+      },
+      MuiMenu: {
+        paper: {
+          backgroundColor: 'rgba(44,47,51,0.8)',
+        },
+      },
+      MuiMenuItem: {
+        selected: {
+          backgroundColor: 'rgba(44,47,51,0.8)',
+        },
+      },
+      MuiButton: {
+        contained: {
+          backgroundColor: 'rgba(44,47,51,0.4)',
         },
       },
     },

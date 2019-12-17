@@ -14,7 +14,9 @@ class WindowListener extends React.Component {
   handleEvent = event => {
     const { dispatch } = this.props;
     const { type, data } = event.data;
-    dispatch({ type, payload: { ...data } });
+    console.log('[Event] ' + type);
+    console.log('[Event Data] ' + JSON.stringify(event.data));
+    dispatch({ type: type == null ? '' : type, payload: { ...data } });
   };
 
   render() {

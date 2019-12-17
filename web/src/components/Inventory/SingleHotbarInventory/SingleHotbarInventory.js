@@ -2,8 +2,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core';
 import Inventory from '../Inventory';
 import React from 'react';
-import Hotbar from '../Hotbar/Hotbar';
 import RightSideInfo from '../UserInfo/RightSideInfo';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -28,27 +28,28 @@ const useStyles = makeStyles(theme => ({
 
 export default (props) => {
   const classes = useStyles();
+  const inventory = useSelector(state => state.inventory.playerInventory);
   return (
     <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.grid}>
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
-          <Grid item xs={12} className={classes.gridItem}>
-            <Inventory/>
-          </Grid>
-          <Grid item xs={12}>
-            <Hotbar/>
+          <Grid item xs={12} className={classes.inventory}>
+            <Inventory data={inventory}/>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={4} className={classes.inventory}>
+      <Grid item xs={3} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12}>
-            <Inventory slotCount={1}/>
+            <Inventory slotCount={1} itemXS={4}/>
           </Grid>
           <Grid item xs={12} className={classes.gridItem}>
             <RightSideInfo/>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item xs={3} className={classes.gridItem}>
+        <Inventory slotCount={4} itemXS={12}/>
       </Grid>
     </Grid>
   );

@@ -1,6 +1,7 @@
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -11,10 +12,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default (props) => {
+  const description = useSelector(state => state.description);
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
-      This is my item description
+      {description.message}
     </Paper>
   );
 }

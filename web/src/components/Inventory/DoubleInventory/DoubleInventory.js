@@ -1,9 +1,10 @@
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Inventory from '../Inventory';
 import React from 'react';
 import Hotbar from '../Hotbar/Hotbar';
-import RightSideInfo from '../UserInfo/RightSideInfo';
+import DescriptionBox from '../DescriptionBox/DescriptionBox';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -24,32 +25,36 @@ const useStyles = makeStyles(theme => ({
     height: '70%',
     maxHeight: '70%',
   },
-  gridItemOverflow: {
-    height: '70%',
-    maxHeight: '70%',
-    overflow: 'visible',
-  },
+  description: {
+    height: '25vh',
+    maxHeight: '25vh',
+  }
 }));
 
 export default (props) => {
   const classes = useStyles();
-
+  const inventory = useSelector(state => state.inventory.player);
+  const secondary = useSelector(state => state.inventory.secondary);
+  const hotbar = useSelector(state => state.inventory.hotbar);
   return (
     <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.grid}>
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory/>
+            <Inventory data={inventory} drawSlotNumber/>
           </Grid>
           <Grid item xs={12}>
-            <Hotbar/>
+            <Hotbar data={hotbar}/>
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory/>
+            <Inventory data={secondary}/>
+          </Grid>
+          <Grid item xs={12} className={classes.description}>
+            <DescriptionBox/>
           </Grid>
         </Grid>
       </Grid>

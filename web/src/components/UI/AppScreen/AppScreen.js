@@ -5,6 +5,7 @@ import { grey } from '@material-ui/core/colors';
 import { connect } from 'react-redux';
 import CloseButton from '../CloseButton/CloseButton';
 import Paper from '@material-ui/core/Paper';
+import HoverItem from '../../Inventory/HoverItem/HoverItem';
 import DoubleInventory from '../../Inventory/DoubleInventory/DoubleInventory';
 import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
 
@@ -13,8 +14,8 @@ const useStyles = makeStyles(theme => ({
     width: '90vw',
     position: 'absolute',
     height: '80vh',
-    padding: theme.spacing(3),
     margin: 'auto',
+    overflow: 'hidden',
     right: 0,
     left: 0,
     bottom: 0,
@@ -44,14 +45,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '100%',
     position: 'relative',
+    overflow: 'hidden',
     display: 'block',
-    zIndex: -1,
-  },
-  dialog: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 'auto',
-    width: 'fit-content',
     zIndex: -1,
   },
   paper: {
@@ -59,7 +54,6 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     position: 'relative',
     zIndex: -1,
-    padding: theme.spacing(2),
   },
 }));
 
@@ -69,6 +63,7 @@ export default connect()(function AppScreen(props) {
 
   return (
     <Grid style={{ visibility: props.hidden ? 'hidden' : 'visible' }} className={classes.outsideDiv}>
+      <HoverItem/>
       <Grid container className={classes.insideDiv} justify={'center'}>
         <Paper className={classes.paper}>
           <SingleInventory/>

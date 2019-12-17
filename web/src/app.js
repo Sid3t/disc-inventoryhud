@@ -11,6 +11,9 @@ import WindowListener from 'containers/WindowListener';
 import configureStore from './configureStore';
 import Nui from './util/Nui';
 import { hideApp } from './containers/App/actions';
+import SingleInventory from './components/Inventory/SingleInventory/SingleInventory';
+import HoverItem from './components/Inventory/HoverItem/HoverItem';
+import Paper from '@material-ui/core/Paper';
 
 const initialState = {};
 const store = configureStore(initialState);
@@ -23,6 +26,7 @@ const closeUI = (event) => {
     props.dispatch(hideApp);
   }
 };
+
 
 
 const render = () => {

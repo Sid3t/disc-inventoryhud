@@ -1,19 +1,17 @@
-resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
-
 description 'Disc InventoryHud Redo'
 
 version '0.0.1'
 
 client_scripts {
-    '@es_extended/locale.lua',
-    'client/main.lua',
-    'config.lua',
+    "disc_inventoryhud_common.net.dll",
+    "disc_inventoryhud_client.net.dll",
+    "Newtonsoft.Json.dll"
 }
 
 server_scripts {
-    '@es_extended/locale.lua',
-    'server/main.lua',
-    'config.lua',
+    "disc_inventoryhud_common.net.dll",
+    "disc_inventoryhud_server.net.dll",
+    "Newtonsoft.Json.dll"
 }
 
 ui_page "web/html/index.html"

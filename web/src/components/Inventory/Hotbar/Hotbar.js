@@ -3,6 +3,6 @@ import Inventory from '../Inventory';
 
 export default (props) => {
   return (
-    <Inventory slotCount={6}/>
+    <Inventory slotCount={6} data={props.data} drawSlotNumber/>
   );
 }
