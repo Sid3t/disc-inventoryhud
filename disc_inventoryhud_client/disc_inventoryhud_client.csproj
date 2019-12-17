@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CitizenFX.Core.Client, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CitizenFX.Core.Client.1.0.1863\lib\net45\CitizenFX.Core.Client.dll</HintPath>
+      <HintPath>..\packages\CitizenFX.Core.Client.1.0.1883\lib\net45\CitizenFX.Core.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -73,11 +73,13 @@
     <Compile Include="Inventory\Actions.cs" />
     <Compile Include="Inventory\Drop.cs" />
     <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\InventoryData.cs" />
+    <Compile Include="Inventory\InventorySlot.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Util\Callbacks.cs" />
-    <Compile Include="Util\NUI.cs" />
+    <Compile Include="Utils\Callbacks.cs" />
+    <Compile Include="Utils\NUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\ObjectExtensions.cs" />
+    <Compile Include="Utils\ObjectExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

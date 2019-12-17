@@ -14,7 +14,7 @@ namespace disc_inventoryhud_server.Inventory
 {
     class Drop : BaseScript
     {
-        public Dictionary<string, InventoryData> Drops { get; } = new Dictionary<string, InventoryData>();
+        public IDictionary<string, InventoryData> Drops { get; } = new Dictionary<string, InventoryData>();
 
         public static Drop Instance { get; private set; }
 
@@ -36,12 +36,9 @@ namespace disc_inventoryhud_server.Inventory
                 foreach (var obj in objs)
                 {
                     var key = fromOwner(obj.owner);
-                    Debug.WriteLine("DROP" + obj.data);
                     var data = JsonConvert.DeserializeObject<InventorySlot>(obj.data);
                     UpdateDrops(key, data, false);
                 }
-                Debug.WriteLine(JsonConvert.SerializeObject(Drops));
-                TriggerClientEvent(Events.UpdateDrops, Drops);
             }));
         }
 
@@ -53,14 +50,14 @@ namespace disc_inventoryhud_server.Inventory
             return new Vector3(x, y, z);
         }
 
-        private string getOwnerFromCoords(Vector3 vector)
+        private string toOwner(Vector3 vector)
         {
             return 'x' + vector.X.ToString() + 'y' + vector.Y.ToString() + 'z' + vector.Z.ToString();
         }
 
         public void UpdateDrops(Vector3 vector, dynamic droppingData, bool sideEffect = true)
         {
-            var key = getOwnerFromCoords(vector);
+            var key = toOwner(vector);
             InventorySlot newSlot = new InventorySlot
             {
                 Name = droppingData.Name,
@@ -70,6 +67,7 @@ namespace disc_inventoryhud_server.Inventory
             {
                 InventoryData data = Drops[key];
                 var slotTo = data.Inventory.FirstOrDefault(value => value.Value.Name == droppingData.Name);
+                data.Coords = vector;
                 if (slotTo.Value != null)
                 {
                     InventorySlot currentSlot = data.Inventory[slotTo.Key];
@@ -85,9 +83,9 @@ namespace disc_inventoryhud_server.Inventory
             }
             else
             {
-                InventoryData newData = new InventoryData
+                dynamic newData = new InventoryData
                 {
-                    Owner = key,
+                    Owner = toOwner(vector),
                     Type = "drop",
                     Inventory = new Dictionary<int, InventorySlot>
                     {
@@ -95,14 +93,16 @@ namespace disc_inventoryhud_server.Inventory
                     }
 
                 };
+                newData.Coords = vector;
                 Drops[key] = newData;
                 if (sideEffect) Inventory.CreateSlot(1, newData, newSlot);
             };
+            TriggerClientEvent(Events.UpdateDrops, Drops);
         }
 
         public InventoryData DeleteDrop(Vector3 vector, int slot)
         {
-            var key = getOwnerFromCoords(vector);
+            var key = toOwner(vector);
             if (!Drops.ContainsKey(key))
             {
                 throw new Exception("Drop does not Exists");
@@ -111,6 +111,7 @@ namespace disc_inventoryhud_server.Inventory
             {
                 InventoryData data = Drops[key];
                 data.Inventory.Remove(slot);
+                TriggerClientEvent(Events.UpdateInventory, Drops);
                 return data;
             }
         }

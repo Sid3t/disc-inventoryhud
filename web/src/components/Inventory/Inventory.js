@@ -22,7 +22,6 @@ export default (props) => {
   const data = props.data && props.data.Inventory ? props.data.Inventory : {};
   const type = props.data ? props.data['Type'] : '';
   const owner = props.data ? props.data.Owner : '';
-  console.log('Type: ' + type + 'Owner: ' + owner);
   return (
     <Grid container justify={'center'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
       {range(1, slotCount).map(

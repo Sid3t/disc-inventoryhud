@@ -1,12 +1,20 @@
-import { CLEAR_HOVER_ITEM, DROP_ITEM, MOVE_ITEM, SET_HOVER_ITEM, SET_INVENTORY } from './actions';
+import { CLEAR_HOVER_ITEM, DROP_ITEM, MOVE_ITEM, SET_HOVER_ITEM, SET_INVENTORY, SET_INVENTORY_TYPE } from './actions';
+import React from 'react';
+import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
+import DoubleInventory from '../../Inventory/DoubleInventory/DoubleInventory';
 
 export const initialState = {
+  inventoryShow: <SingleInventory/>,
   player: {
     Type: 'player',
     Inventory: {},
   },
   secondary: {
     Type: 'secondary',
+    Inventory: {},
+  },
+  drop: {
+    Type: 'drop',
     Inventory: {},
   },
   hotbar: {
@@ -29,6 +37,12 @@ const inventoryReducer = (state = initialState, action) => {
           ...action.payload.data,
         },
       };
+    }
+    case SET_INVENTORY_TYPE: {
+      return {
+        ...state,
+        inventoryShow: action.payload.invType
+      }
     }
     case SET_HOVER_ITEM: {
       return {

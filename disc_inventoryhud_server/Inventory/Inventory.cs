@@ -75,7 +75,6 @@ namespace disc_inventoryhud_server.Inventory
                     inventoryData.Inventory.Add(obj.slot, JsonConvert.DeserializeObject<InventorySlot>(obj?.data.ToString()));
                 }
                 LoadedInventories[new KeyValuePair<string, string>(type, owner)] = inventoryData;
-                Debug.WriteLine(JsonConvert.SerializeObject(inventoryData));
                 destination.TriggerEvent(Events.UpdateInventory, inventoryData);
             }));
         }
@@ -83,7 +82,6 @@ namespace disc_inventoryhud_server.Inventory
         public void MoveItem([FromSource] Player player, IDictionary<string, dynamic> data)
         {
             var movingData = data.FirstOrDefault().Value;
-            Debug.WriteLine(JsonConvert.SerializeObject(movingData));
             if (movingData.typeFrom == movingData.typeTo && movingData.ownerFrom == movingData.ownerTo)
             {
                 var key = new KeyValuePair<string, string>(movingData.typeFrom, movingData.ownerFrom);

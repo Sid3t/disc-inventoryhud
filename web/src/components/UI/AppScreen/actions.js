@@ -1,6 +1,7 @@
 import Nui from '../../../util/Nui';
 
 export const SET_INVENTORY = 'SET_INVENTORY';
+export const SET_INVENTORY_TYPE = 'SET_INVENTORY_TYPE';
 export const SET_HOVER_ITEM = 'SET_HOVER_ITEM';
 export const CLEAR_HOVER_ITEM = 'CLEAR_HOVER_ITEM';
 export const MOVE_ITEM = 'MOVE_ITEM';

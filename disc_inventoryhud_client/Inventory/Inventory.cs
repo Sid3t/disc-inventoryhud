@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using disc_inventoryhud_client.Util;
+using disc_inventoryhud_client.Utils;
 using Newtonsoft.Json;
 using disc_inventoryhud_common.Inventory;
 
@@ -67,7 +67,6 @@ namespace disc_inventoryhud_client.Inventory
         [Tick]
         private async Task HandleOpenInventory()
         {
-            await Delay(0);
             if (API.IsControlJustReleased(0, 289))
             {
                 Open();
@@ -76,6 +75,7 @@ namespace disc_inventoryhud_client.Inventory
 
         private void Open()
         {
+            API.SendNuiMessage(Actions.SET_INVENTORY_TYPE("single"));
             API.SendNuiMessage(Actions.APP_SHOW);
             API.SetNuiFocus(true, true);
         }

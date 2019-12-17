@@ -52,6 +52,8 @@
     <Compile Include="ESX\ESXHandler.cs" />
     <Compile Include="Inventory\Drop.cs" />
     <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\InventoryData.cs" />
+    <Compile Include="Inventory\InventorySlot.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MySQL\MySQLHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +66,9 @@
       <Project>{e85acb83-21f2-406e-947a-1a7c6fdccc59}</Project>
       <Name>disc_inventoryhud_common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿using disc_inventoryhud_client.Util;
+﻿using disc_inventoryhud_client.Utils;
 using disc_inventoryhud_common.Inventory;
 using Newtonsoft.Json;
 using System;
@@ -17,6 +17,13 @@ namespace disc_inventoryhud_client.Inventory
         {
             type = "APP_SHOW"
         }.ToJson();
+        public static string SET_INVENTORY_TYPE(string type) {
+            return new
+            {
+                type = "SET_INVENTORY_TYPE",
+                invType = type
+            }.ToJson();
+        }
 
         public static string SET_INVENTORY(ExpandoObject data)
         {

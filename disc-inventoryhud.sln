@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		__resource.lua = __resource.lua
+		disc-inventoryhud.sql = disc-inventoryhud.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "disc_inventoryhud_server", "disc_inventoryhud_server\disc_inventoryhud_server.csproj", "{145C748A-6BCF-4A6C-94AD-2CEF7FC51C77}"

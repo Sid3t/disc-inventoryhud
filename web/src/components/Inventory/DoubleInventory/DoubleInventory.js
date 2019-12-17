@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 export default (props) => {
   const classes = useStyles();
   const inventory = useSelector(state => state.inventory.player);
-  const secondary = useSelector(state => state.inventory.secondary);
   const hotbar = useSelector(state => state.inventory.hotbar);
   return (
     <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.grid}>
@@ -51,7 +50,7 @@ export default (props) => {
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory data={secondary}/>
+            <Inventory data={props.inventory}/>
           </Grid>
           <Grid item xs={12} className={classes.description}>
             <DescriptionBox/>

@@ -1,13 +1,14 @@
 import Grid from '@material-ui/core/Grid';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import CloseButton from '../CloseButton/CloseButton';
 import Paper from '@material-ui/core/Paper';
 import HoverItem from '../../Inventory/HoverItem/HoverItem';
 import DoubleInventory from '../../Inventory/DoubleInventory/DoubleInventory';
 import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
+import DropInventory from '../../DropInventory/DropInventory';
 
 const useStyles = makeStyles(theme => ({
   outsideDiv: {
@@ -59,14 +60,23 @@ const useStyles = makeStyles(theme => ({
 
 export default connect()(function AppScreen(props) {
   const classes = useStyles();
+  const invType = useSelector(state => state.inventory.inventoryShow);
 
+  let inv = <SingleInventory/>;
+  useEffect(() => {
+    switch (invType) {
+      case "drop" :
+        inv=<DropInventory/>;
+        break;
+    }
+  }, [invType]);
 
   return (
     <Grid style={{ visibility: props.hidden ? 'hidden' : 'visible' }} className={classes.outsideDiv}>
       <HoverItem/>
       <Grid container className={classes.insideDiv} justify={'center'}>
         <Paper className={classes.paper}>
-          <SingleInventory/>
+          {inv}
         </Paper>
         <CloseButton/>
       </Grid>
