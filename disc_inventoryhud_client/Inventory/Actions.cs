@@ -17,11 +17,15 @@ namespace disc_inventoryhud_client.Inventory
         {
             type = "APP_SHOW"
         }.ToJson();
+
         public static string SET_INVENTORY_TYPE(string type) {
             return new
             {
                 type = "SET_INVENTORY_TYPE",
-                invType = type
+                data = new
+                {
+                    invType = type
+                }
             }.ToJson();
         }
 
@@ -30,6 +34,18 @@ namespace disc_inventoryhud_client.Inventory
             return new
             {
                 type = "SET_INVENTORY",
+                data = new
+                {
+                    data,
+                }
+            }.ToJson();
+        }
+
+        public static string SET_INFO(ExpandoObject data)
+        {
+            return new
+            {
+                type = "SET_INFO",
                 data = new
                 {
                     data,

@@ -34,6 +34,7 @@ export const moveItem = (slot, type, item, owner) => {
         typeTo: type,
       },
     };
+    console.log(JSON.stringify(payload, null, 2));
     Nui.send(MOVE_ITEM, payload);
     dispatch({
         type: MOVE_ITEM,
@@ -48,10 +49,10 @@ export const dropItem = (slot, type, item, owner) => {
   return dispatch => {
     const payload = {
       data: {
-        slot: slot,
-        type: type,
-        owner: owner,
-        ...item,
+        slotFrom: slot,
+        typeFrom: type,
+        ownerFrom: owner,
+        item: item,
       },
     };
     Nui.send(DROP_ITEM, payload);

@@ -51,9 +51,12 @@
   <ItemGroup>
     <Compile Include="ESX\ESXHandler.cs" />
     <Compile Include="Inventory\Drop.cs" />
+    <Compile Include="Inventory\Info\ItemData.cs" />
+    <Compile Include="Inventory\Info\ItemDataHandler.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\InventoryData.cs" />
     <Compile Include="Inventory\InventorySlot.cs" />
+    <Compile Include="Inventory\ItemHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MySQL\MySQLHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

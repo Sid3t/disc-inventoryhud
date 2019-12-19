@@ -10,5 +10,6 @@ namespace disc_inventoryhud_common.Inv
     {
         public string Name { get; set; }
         public int Count { get; set; }
+        public Dictionary<string, string> MetaData { get; set; }
     }
 }

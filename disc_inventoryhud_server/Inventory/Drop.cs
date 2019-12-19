@@ -14,7 +14,15 @@ namespace disc_inventoryhud_server.Inventory
 {
     class Drop : BaseScript
     {
-        public IDictionary<string, InventoryData> Drops { get; } = new Dictionary<string, InventoryData>();
+        public Dictionary<string, InventoryData> Drops
+        {
+            get
+            {
+                return
+                    Inventory.Instance.LoadedInventories.Where(kp => kp.Key.Key == "drop").ToDictionary(v => v.Key.Value, v => v.Value);
+
+            }
+        }
 
         public static Drop Instance { get; private set; }
 
@@ -33,16 +41,28 @@ namespace disc_inventoryhud_server.Inventory
 
             MySQLHandler.Instance?.FetchAll("SELECT * FROM disc_inventory WHERE type=@type", pars, new Action<List<dynamic>>((objs) =>
             {
-                foreach (var obj in objs)
+                foreach (var item in objs)
                 {
-                    var key = fromOwner(obj.owner);
-                    var data = JsonConvert.DeserializeObject<InventorySlot>(obj.data);
-                    UpdateDrops(key, data, false);
+                    InventoryData inventoryData = new InventoryData
+                    {
+                        Owner = item.owner,
+                        Type = item.type,
+                        Coords = fromOwner(item.owner)
+                    };
+                    inventoryData.Inventory.Add(item.slot, JsonConvert.DeserializeObject<InventorySlot>(item.data.ToString()));
+                    Inventory.Instance.LoadedInventories[new KeyValuePair<string, string>(item.type, item.owner)] = inventoryData;
                 }
+                SyncDrops();
             }));
         }
 
-        private Vector3 fromOwner(string owner)
+        public void SyncDrops()
+        {
+            TriggerClientEvent(Events.UpdateDrops, Drops);
+        }
+
+
+        public static Vector3 fromOwner(string owner)
         {
             var x = float.Parse(Regex.Match(owner, @"x[-+]?[0-9]*\.?[0-9]*", RegexOptions.ECMAScript).Value.Substring(1));
             var y = float.Parse(Regex.Match(owner, @"y[-+]?[0-9]*\.?[0-9]*", RegexOptions.ECMAScript).Value.Substring(1));
@@ -50,70 +70,9 @@ namespace disc_inventoryhud_server.Inventory
             return new Vector3(x, y, z);
         }
 
-        private string toOwner(Vector3 vector)
+        public static string toOwner(Vector3 vector)
         {
             return 'x' + vector.X.ToString() + 'y' + vector.Y.ToString() + 'z' + vector.Z.ToString();
-        }
-
-        public void UpdateDrops(Vector3 vector, dynamic droppingData, bool sideEffect = true)
-        {
-            var key = toOwner(vector);
-            InventorySlot newSlot = new InventorySlot
-            {
-                Name = droppingData.Name,
-                Count = droppingData.Count
-            };
-            if (Drops.ContainsKey(key))
-            {
-                InventoryData data = Drops[key];
-                var slotTo = data.Inventory.FirstOrDefault(value => value.Value.Name == droppingData.Name);
-                data.Coords = vector;
-                if (slotTo.Value != null)
-                {
-                    InventorySlot currentSlot = data.Inventory[slotTo.Key];
-                    currentSlot.Count += droppingData.Count;
-                    if (sideEffect) Inventory.UpdateSlot(slotTo.Key, data, currentSlot);
-                }
-                else
-                {
-                    int newSlotNumber = data.Inventory.Count + 1;
-                    data.Inventory.Add(newSlotNumber, newSlot);
-                    if (sideEffect) Inventory.CreateSlot(newSlotNumber, data, newSlot);
-                }
-            }
-            else
-            {
-                dynamic newData = new InventoryData
-                {
-                    Owner = toOwner(vector),
-                    Type = "drop",
-                    Inventory = new Dictionary<int, InventorySlot>
-                    {
-                        [1] = newSlot
-                    }
-
-                };
-                newData.Coords = vector;
-                Drops[key] = newData;
-                if (sideEffect) Inventory.CreateSlot(1, newData, newSlot);
-            };
-            TriggerClientEvent(Events.UpdateDrops, Drops);
-        }
-
-        public InventoryData DeleteDrop(Vector3 vector, int slot)
-        {
-            var key = toOwner(vector);
-            if (!Drops.ContainsKey(key))
-            {
-                throw new Exception("Drop does not Exists");
-            }
-            else
-            {
-                InventoryData data = Drops[key];
-                data.Inventory.Remove(slot);
-                TriggerClientEvent(Events.UpdateInventory, Drops);
-                return data;
-            }
         }
     }
 }

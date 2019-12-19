@@ -16,15 +16,16 @@ namespace disc_inventoryhud_server.Inventory
 {
     class Inventory : BaseScript
     {
+        public static Inventory Instance { get; private set; }
 
-        protected Dictionary<KeyValuePair<string, string>, InventoryData> LoadedInventories = new Dictionary<KeyValuePair<string, string>, InventoryData>();
+        public Dictionary<KeyValuePair<string, string>, InventoryData> LoadedInventories = new Dictionary<KeyValuePair<string, string>, InventoryData>();
 
         public Inventory()
         {
+            Instance = this;
             EventHandlers["onResourceStart"] += new Action<string>(onResourceStart);
             EventHandlers["esx:playerLoaded"] += new Action<int>(PlayerLoaded);
             EventHandlers[Events.MoveItem] += new Action<Player, IDictionary<string, dynamic>>(MoveItem);
-            EventHandlers[Events.DropItem] += new Action<Player, IDictionary<string, dynamic>>(DropItem);
         }
 
 
@@ -50,12 +51,12 @@ namespace disc_inventoryhud_server.Inventory
         {
             var xPlayer = ESXHandler.Instance.GetPlayerFromId(player.Handle);
             Debug.WriteLine($"[Disc-InventoryHUD] Syncing {player.Handle} with {xPlayer.identifier}");
-            LoadInventory("player", xPlayer.identifier, player);
-            LoadInventory("hotbar", xPlayer.identifier, player);
-            LoadInventory("equipment", xPlayer.identifier, player);
+            SyncInventory("player", xPlayer.identifier, player);
+            SyncInventory("hotbar", xPlayer.identifier, player);
+            SyncInventory("equipment", xPlayer.identifier, player);
         }
 
-        public void LoadInventory(string type, string owner, Player destination)
+        public void SyncInventory(string type, string owner, Player destination)
         {
             var pars = new Dictionary<string, object>()
             {
@@ -65,18 +66,23 @@ namespace disc_inventoryhud_server.Inventory
 
             MySQLHandler.Instance?.FetchAll("SELECT * FROM disc_inventory WHERE owner=@owner AND type=@type", pars, new Action<List<dynamic>>((objs) =>
             {
-                InventoryData inventoryData = new InventoryData
-                {
-                    Owner = owner,
-                    Type = type,
-                };
-                foreach (var obj in objs)
-                {
-                    inventoryData.Inventory.Add(obj.slot, JsonConvert.DeserializeObject<InventorySlot>(obj?.data.ToString()));
-                }
-                LoadedInventories[new KeyValuePair<string, string>(type, owner)] = inventoryData;
-                destination.TriggerEvent(Events.UpdateInventory, inventoryData);
+                destination.TriggerEvent(Events.UpdateInventory, LoadInventory(owner, type, objs));
             }));
+        }
+
+        public InventoryData LoadInventory(string owner, string type, dynamic objs)
+        {
+            InventoryData inventoryData = new InventoryData
+            {
+                Owner = owner,
+                Type = type,
+            };
+            foreach (var obj in objs)
+            {
+                inventoryData.Inventory.Add(obj.slot, JsonConvert.DeserializeObject<InventorySlot>(obj?.data.ToString()));
+            }
+            LoadedInventories[new KeyValuePair<string, string>(type, owner)] = inventoryData;
+            return inventoryData;
         }
 
         public void MoveItem([FromSource] Player player, IDictionary<string, dynamic> data)
@@ -87,6 +93,9 @@ namespace disc_inventoryhud_server.Inventory
                 var key = new KeyValuePair<string, string>(movingData.typeFrom, movingData.ownerFrom);
                 var inv = LoadedInventories[key];
                 var slotFrom = inv.Inventory[movingData.slotFrom];
+                if (movingData.slotTo == -1) {
+                    movingData.slotTo = inv.Inventory.Count() + 1;
+                }
                 if (slotFrom.Count - movingData.item.Count <= 0)
                 {
                     inv.Inventory.Remove(movingData.slotFrom);
@@ -108,8 +117,9 @@ namespace disc_inventoryhud_server.Inventory
                 {
                     InventorySlot slot = new InventorySlot
                     {
-                        Name = movingData.item.Name,
-                        Count = movingData.item.Count
+                        Id = movingData.item.Id,
+                        Count = movingData.item.Count,
+                        MetaData = movingData.item.MetaData
                     };
                     inv.Inventory.Add(movingData.slotTo, slot);
                     CreateSlot(movingData.slotTo, inv, slot);
@@ -135,6 +145,10 @@ namespace disc_inventoryhud_server.Inventory
                 if (LoadedInventories.ContainsKey(toKey))
                 {
                     var invTo = LoadedInventories[toKey];
+                    if (movingData.slotTo == -1)
+                    {
+                        movingData.slotTo = invTo.Inventory.Count() + 1;
+                    }
                     if (invTo.Inventory.ContainsKey(movingData.slotTo))
                     {
                         InventorySlot slot = invTo.Inventory[movingData.slotTo];
@@ -145,8 +159,9 @@ namespace disc_inventoryhud_server.Inventory
                     {
                         InventorySlot slot = new InventorySlot
                         {
-                            Name = movingData.item.Name,
-                            Count = movingData.item.Count
+                            Id = movingData.item.Id,
+                            Count = movingData.item.Count,
+                            MetaData = movingData.item.MetaData
                         };
                         invTo.Inventory.Add(movingData.slotTo, slot);
                         CreateSlot(movingData.slotTo, invTo, slot);
@@ -154,15 +169,21 @@ namespace disc_inventoryhud_server.Inventory
                 }
                 else
                 {
+                    if (movingData.slotTo == -1)
+                    {
+                        movingData.slotTo = 1;
+                    }
                     InventorySlot slot = new InventorySlot
                     {
-                        Name = movingData.item.Name,
-                        Count = movingData.item.Count
+                        Id = movingData.item.Id,
+                        Count = movingData.item.Count,
+                        MetaData = movingData.item.MetaData
                     };
                     InventoryData newData = new InventoryData
                     {
                         Owner = movingData.ownerTo,
                         Type = movingData.typeTo,
+                        Coords = Drop.fromOwner(movingData.coords),
                         Inventory = new Dictionary<int, InventorySlot>
                         {
                             [movingData.slotTo] = slot
@@ -171,6 +192,10 @@ namespace disc_inventoryhud_server.Inventory
                     LoadedInventories[toKey] = newData;
                     CreateSlot(movingData.slotTo, newData, slot);
                 }
+            }
+            if (movingData.typeFrom == "drop" || movingData.typeTo == "drop")
+            {
+                Drop.Instance.SyncDrops();
             }
         }
 
@@ -206,29 +231,6 @@ namespace disc_inventoryhud_server.Inventory
                 ["@type"] = data.Type,
                 ["@slot"] = slot,
             }, new Action<int>(_ => { }));
-        }
-
-        public void DropItem([FromSource] Player player, IDictionary<string, dynamic> data)
-        {
-            var droppingData = data["data"];
-            Debug.WriteLine(JsonConvert.SerializeObject(droppingData));
-            var playerCoords = data["coords"];
-            Debug.WriteLine(playerCoords.ToString());
-            var key = new KeyValuePair<string, string>(droppingData.type, droppingData.owner);
-            var fromInv = LoadedInventories[key];
-            if (fromInv.Inventory[droppingData.slot].Count - droppingData.Count <= 0)
-            {
-                fromInv.Inventory.Remove(droppingData.slot);
-                Inventory.DeleteSlot(droppingData.slot, fromInv);
-                Drop.Instance.UpdateDrops(playerCoords, droppingData);
-            }
-            else
-            {
-                InventorySlot slot = fromInv.Inventory[droppingData.slot];
-                slot.Count -= droppingData.Count;
-                Inventory.UpdateSlot(droppingData.slot, fromInv, slot);
-                Drop.Instance.UpdateDrops(playerCoords, droppingData);
-            }
         }
     }
 }

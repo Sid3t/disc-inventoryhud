@@ -16,7 +16,7 @@ export default (props) => {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
-      {description.message}
+      {JSON.stringify(description.message, 2, null)}
     </Paper>
   );
 }

@@ -40,7 +40,7 @@ export default (props) => {
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory data={inventory} drawSlotNumber/>
+            <Inventory data={inventory}/>
           </Grid>
           <Grid item xs={12}>
             <Hotbar data={hotbar}/>

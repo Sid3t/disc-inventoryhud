@@ -13,5 +13,8 @@ namespace disc_inventoryhud_common.Inventory
         public const string UpdateDrops = prefix + "updateDrops";
         public const string MoveItem = prefix + "moveItem";
         public const string DropItem = prefix + "dropItem";
+        public const string AddItem = prefix + "addItem";
+        public const string RemoveItem = prefix + "removeItem";
+        public const string UpdateInfo = prefix + "updateInfo";
     }
 }

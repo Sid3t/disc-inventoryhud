@@ -4,7 +4,7 @@ import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
 import DoubleInventory from '../../Inventory/DoubleInventory/DoubleInventory';
 
 export const initialState = {
-  inventoryShow: <SingleInventory/>,
+  inventoryShow: "single",
   player: {
     Type: 'player',
     Inventory: {},
@@ -113,11 +113,11 @@ const inventoryReducer = (state = initialState, action) => {
     }
     case DROP_ITEM: {
       const { data } = action.payload;
-      const newInv = { ...state[data.type] };
-      if (newInv.Inventory[data.slot].Count - data.Count <= 0) {
-        newInv.Inventory[data.slot] = undefined;
+      const newInv = { ...state[data.typeFrom] }
+      if (newInv.Inventory[data.slotFrom].Count - data.item.Count <= 0) {
+        newInv.Inventory[data.slotFrom] = undefined;
       } else {
-        newInv.Inventory[data.slot].Count -= data.Count;
+        newInv.Inventory[data.slotFrom].Count -= data.item.Count;
       }
       return {
         ...state,

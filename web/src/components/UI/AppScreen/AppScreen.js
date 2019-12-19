@@ -1,5 +1,5 @@
 import Grid from '@material-ui/core/Grid';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
 import { connect, useSelector } from 'react-redux';
@@ -61,13 +61,14 @@ const useStyles = makeStyles(theme => ({
 export default connect()(function AppScreen(props) {
   const classes = useStyles();
   const invType = useSelector(state => state.inventory.inventoryShow);
-
-  let inv = <SingleInventory/>;
+  const [inv, setInv] = useState(<SingleInventory/>);
   useEffect(() => {
     switch (invType) {
       case "drop" :
-        inv=<DropInventory/>;
+        setInv(<DropInventory/>);
         break;
+      default:
+        setInv(<SingleInventory/>);
     }
   }, [invType]);
 

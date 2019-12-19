@@ -72,6 +72,7 @@
     <Compile Include="ESX\ESXHandler.cs" />
     <Compile Include="Inventory\Actions.cs" />
     <Compile Include="Inventory\Drop.cs" />
+    <Compile Include="Inventory\Info\ItemDataHandler.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\InventoryData.cs" />
     <Compile Include="Inventory\InventorySlot.cs" />

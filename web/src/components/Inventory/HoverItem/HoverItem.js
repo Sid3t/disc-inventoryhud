@@ -31,7 +31,6 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
-    width: '20%',
     height: '20%',
     userSelect: 'none',
   },
@@ -61,7 +60,11 @@ export default (props) => {
   const classes = useStyles();
   const [state, setState] = React.useState(initialState);
   const hover = useSelector(state => state.inventory.hoverItem);
+  const iD = useSelector(state => state.itemData.info);
 
+  const itemData = () => {
+    return iD[hover.data.item.Id] ? iD[hover.data.item.Id] : {};
+  };
   useEffect(() => {
     document.addEventListener('mousemove', function(event) {
       event.preventDefault();
@@ -81,7 +84,7 @@ export default (props) => {
       }>
         <Paper className={classes.slot}>
           <Img className={classes.img}
-               src={'https://pngriver.com/wp-content/uploads/2018/03/Download-Bread-Transparent-Background-For-Designing-Projects.png'}
+               src={itemData().ItemUrl}
                loader={<CircularProgress/>}
                unloader={<Typography variant={'body2'}>{hover.data.item.Name}</Typography>}/>
           <Grid className={classes.countGrid} spacing={1} container justify={'center'} alignItems={'center'}>
@@ -89,7 +92,7 @@ export default (props) => {
               <Paper>{hover.data.item.Count}</Paper>
             </Grid>
           </Grid>
-          <Paper className={classes.name}>{hover.data.item.Name}</Paper>
+          <Paper className={classes.name}>{itemData().Label}</Paper>
         </Paper>
       </Grid>
     );

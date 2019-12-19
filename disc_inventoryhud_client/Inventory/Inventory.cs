@@ -36,14 +36,6 @@ namespace disc_inventoryhud_client.Inventory
             {
                 TriggerServerEvent(Events.MoveItem, data);
             });
-            NUI.Instance.RegisterNUICallback(Callbacks.DROP_ITEM, (data) =>
-            {
-                var player = API.PlayerPedId();
-                var nonRounded = API.GetEntityCoords(player, true);
-                var playerCoords = new Vector3((float)Math.Round(nonRounded.X, 1), (float)Math.Round(nonRounded.Y, 1), (float)Math.Round(nonRounded.Z, 1));
-                data.Add("coords", playerCoords);
-                TriggerServerEvent(Events.DropItem, data);
-            });
         }
 
         public void InitEventHandlers()
@@ -51,6 +43,7 @@ namespace disc_inventoryhud_client.Inventory
             EventHandlers["onResourceStop"] += new Action<string>(onResourceStop);
             EventHandlers[Events.UpdateInventory] += new Action<dynamic>((inv) => {
                 Debug.WriteLine("Loading Inventory");
+                Debug.WriteLine(JsonConvert.SerializeObject(inv));
                 API.SendNuiMessage(Actions.SET_INVENTORY(inv));
             });
         }

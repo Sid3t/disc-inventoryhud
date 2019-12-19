@@ -8,7 +8,8 @@ namespace disc_inventoryhud_common.Inv
 {
     public class InventorySlot
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public int Count { get; set; }
+        public IDictionary<string, dynamic> MetaData { get; set; }
     }
 }

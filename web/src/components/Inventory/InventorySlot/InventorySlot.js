@@ -40,7 +40,6 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     right: 0,
     top: 0,
-    width: '20%',
     height: '20%',
     userSelect: 'none',
   },
@@ -65,6 +64,11 @@ export default connect()((props) => {
   const [countState, setCountState] = React.useState(false);
   const [dropCountState, setDropCountState] = React.useState(false);
   const hoverItem = useSelector(state => state.inventory.hoverItem);
+  const iD = useSelector(state => state.itemData.info);
+
+  const itemData = () => {
+    return iD[props.item.Id] ? iD[props.item.Id] : {};
+  };
 
   const handleClick = event => {
     event.preventDefault();
@@ -139,24 +143,28 @@ export default connect()((props) => {
     props.dispatch(dropItem(props.slot, props.type, item, props.owner));
   };
 
+  if (props.item) {
+    console.log(props.item.MetaData);
+  }
+
   return (
     <Grid item xs={props.xs} onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onContextMenu={handleClick}
-          onMouseEnter={() => props.dispatch(setDescription(props.item ? props.item.Name : ''))}
+          onMouseEnter={() => props.dispatch(setDescription(props.item ? props.item.MetaData : ''))}
           onMouseLeave={() => props.dispatch(setDescription(''))}>
       <Paper className={classes.slot}>
         {props.item && <Fragment>
           <Img className={classes.img}
-               src={'https://pngriver.com/wp-content/uploads/2018/03/Download-Bread-Transparent-Background-For-Designing-Projects.png'}
+               src={itemData().ItemUrl}
                loader={<CircularProgress/>}
-               unloader={<Typography variant={'body2'}>{props.item.Name}</Typography>}/>
+               unloader={<Typography variant={'body2'}>{props.item.id}</Typography>}/>
           <Grid className={classes.countGrid} spacing={1} container justify={'center'} alignItems={'center'}>
             <Grid item xs={12}>
               <Paper>{props.item.Count}</Paper>
             </Grid>
           </Grid>
-          <Paper className={classes.name}>{props.item.Name}</Paper>
+          <Paper className={classes.name}>{itemData().Label}</Paper>
         </Fragment>
         }
         {props.drawSlot &&
