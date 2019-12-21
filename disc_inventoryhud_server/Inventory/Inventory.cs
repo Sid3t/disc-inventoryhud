@@ -96,64 +96,24 @@ namespace disc_inventoryhud_server.Inventory
                 if (movingData.slotTo == -1) {
                     movingData.slotTo = inv.Inventory.Count() + 1;
                 }
-                if (slotFrom.Count - movingData.item.Count <= 0)
+                if (!inv.Inventory.ContainsKey(movingData.slotTo) || inv.Inventory[movingData.slotTo].Id == movingData.item.Id)
                 {
-                    inv.Inventory.Remove(movingData.slotFrom);
-                    DeleteSlot(movingData.slotFrom, inv);
-                }
-                else
-                {
-                    slotFrom.Count -= movingData.item.Count;
-                    UpdateSlot(movingData.slotFrom, inv, slotFrom);
-                }
-
-                if (inv.Inventory.ContainsKey(movingData.slotTo))
-                {
-                    InventorySlot slot = inv.Inventory[movingData.slotTo];
-                    slot.Count += movingData.item.Count;
-                    UpdateSlot(movingData.slotTo, inv, slot);
-                }
-                else
-                {
-                    InventorySlot slot = new InventorySlot
+                    if (slotFrom.Count - movingData.item.Count <= 0)
                     {
-                        Id = movingData.item.Id,
-                        Count = movingData.item.Count,
-                        MetaData = movingData.item.MetaData
-                    };
-                    inv.Inventory.Add(movingData.slotTo, slot);
-                    CreateSlot(movingData.slotTo, inv, slot);
-                }
-            }
-            else
-            {
-                var fromKey = new KeyValuePair<string, string>(movingData.typeFrom, movingData.ownerFrom);
-                var invFrom = LoadedInventories[fromKey];
-                var slotFrom = invFrom.Inventory[movingData.slotFrom];
-                if (slotFrom.Count - movingData.item.Count <= 0)
-                {
-                    invFrom.Inventory.Remove(movingData.slotFrom);
-                    DeleteSlot(movingData.slotFrom, invFrom);
-                }
-                else
-                {
-                    slotFrom.Count -= movingData.item.Count;
-                    UpdateSlot(movingData.slotFrom, invFrom, slotFrom);
-                }
-
-                var toKey = new KeyValuePair<string, string>(movingData.typeTo, movingData.ownerTo);
-                if (LoadedInventories.ContainsKey(toKey))
-                {
-                    var invTo = LoadedInventories[toKey];
-                    if (movingData.slotTo == -1)
-                    {
-                        movingData.slotTo = invTo.Inventory.Count() + 1;
+                        inv.Inventory.Remove(movingData.slotFrom);
+                        DeleteSlot(movingData.slotFrom, inv);
                     }
-                    if (invTo.Inventory.ContainsKey(movingData.slotTo))
+                    else
                     {
-                        InventorySlot slot = invTo.Inventory[movingData.slotTo];
+                        slotFrom.Count -= movingData.item.Count;
+                        UpdateSlot(movingData.slotFrom, inv, slotFrom);
+                    }
+
+                    if (inv.Inventory.ContainsKey(movingData.slotTo))
+                    {
+                        InventorySlot slot = inv.Inventory[movingData.slotTo];
                         slot.Count += movingData.item.Count;
-                        UpdateSlot(movingData.slotTo, invTo, slot);
+                        UpdateSlot(movingData.slotTo, inv, slot);
                     }
                     else
                     {
@@ -163,34 +123,81 @@ namespace disc_inventoryhud_server.Inventory
                             Count = movingData.item.Count,
                             MetaData = movingData.item.MetaData
                         };
-                        invTo.Inventory.Add(movingData.slotTo, slot);
-                        CreateSlot(movingData.slotTo, invTo, slot);
+                        inv.Inventory.Add(movingData.slotTo, slot);
+                        CreateSlot(movingData.slotTo, inv, slot);
                     }
                 }
-                else
+            }
+            else
+            {
+                var fromKey = new KeyValuePair<string, string>(movingData.typeFrom, movingData.ownerFrom);
+                var toKey = new KeyValuePair<string, string>(movingData.typeTo, movingData.ownerTo);
+                var invFrom = LoadedInventories[fromKey];
+                var slotFrom = invFrom.Inventory[movingData.slotFrom];
+                if (!LoadedInventories.ContainsKey(toKey) || !LoadedInventories[toKey].Inventory.ContainsKey(movingData.slotTo) || LoadedInventories[toKey].Inventory[movingData.slotTo].Id == movingData.item.Id)
                 {
-                    if (movingData.slotTo == -1)
+                    if (slotFrom.Count - movingData.item.Count <= 0)
                     {
-                        movingData.slotTo = 1;
+                        invFrom.Inventory.Remove(movingData.slotFrom);
+                        DeleteSlot(movingData.slotFrom, invFrom);
                     }
-                    InventorySlot slot = new InventorySlot
+                    else
                     {
-                        Id = movingData.item.Id,
-                        Count = movingData.item.Count,
-                        MetaData = movingData.item.MetaData
-                    };
-                    InventoryData newData = new InventoryData
+                        slotFrom.Count -= movingData.item.Count;
+                        UpdateSlot(movingData.slotFrom, invFrom, slotFrom);
+                    }
+
+                    if (LoadedInventories.ContainsKey(toKey))
                     {
-                        Owner = movingData.ownerTo,
-                        Type = movingData.typeTo,
-                        Coords = Drop.fromOwner(movingData.coords),
-                        Inventory = new Dictionary<int, InventorySlot>
+                        var invTo = LoadedInventories[toKey];
+                        if (movingData.slotTo == -1)
                         {
-                            [movingData.slotTo] = slot
+                            movingData.slotTo = invTo.Inventory.Count() + 1;
                         }
-                    };
-                    LoadedInventories[toKey] = newData;
-                    CreateSlot(movingData.slotTo, newData, slot);
+                        if (invTo.Inventory.ContainsKey(movingData.slotTo))
+                        {
+                            InventorySlot slot = invTo.Inventory[movingData.slotTo];
+                            slot.Count += movingData.item.Count;
+                            UpdateSlot(movingData.slotTo, invTo, slot);
+                        }
+                        else
+                        {
+                            InventorySlot slot = new InventorySlot
+                            {
+                                Id = movingData.item.Id,
+                                Count = movingData.item.Count,
+                                MetaData = movingData.item.MetaData
+                            };
+                            invTo.Inventory.Add(movingData.slotTo, slot);
+                            CreateSlot(movingData.slotTo, invTo, slot);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine(JsonConvert.SerializeObject(movingData));
+                        if (movingData.slotTo == -1)
+                        {
+                            movingData.slotTo = 1;
+                        }
+                        InventorySlot slot = new InventorySlot
+                        {
+                            Id = movingData.item.Id,
+                            Count = movingData.item.Count,
+                            MetaData = movingData.item.MetaData
+                        };
+                        InventoryData newData = new InventoryData
+                        {
+                            Owner = movingData.ownerTo,
+                            Type = movingData.typeTo,
+                            Coords = ((IDictionary<string, dynamic>)movingData).ContainsKey("coords") ? Drop.fromOwner(movingData.coords) : new Vector3(),
+                            Inventory = new Dictionary<int, InventorySlot>
+                            {
+                                [movingData.slotTo] = slot
+                            }
+                        };
+                        LoadedInventories[toKey] = newData;
+                        CreateSlot(movingData.slotTo, newData, slot);
+                    }
                 }
             }
             if (movingData.typeFrom == "drop" || movingData.typeTo == "drop")

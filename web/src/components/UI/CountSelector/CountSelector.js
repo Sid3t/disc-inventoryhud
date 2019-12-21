@@ -47,7 +47,7 @@ export default (props) => {
         <Button variant={'contained'} onClick={() => {
           props.setDialogState(false);
           props.action(value);
-        }}>Split</Button>
+        }}>{props.actionName ? props.actionName : "Split"}</Button>
       </DialogActions>
     </Dialog>
   )

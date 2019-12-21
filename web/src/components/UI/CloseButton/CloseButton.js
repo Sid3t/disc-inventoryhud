@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     bottom: 0,
     left: '50%',
     position: 'absolute',
-    transform: 'translate(-50%, 0%)',
+    transform: 'translate(-100%, -50%)',
     zIndex: 999999,
   },
 }));
@@ -22,7 +22,6 @@ export default connect()((props) => {
       props.dispatch(hideApp);
       Nui.send('CloseUI');
     };
-
     return (
       <IconButton onClick={handleClose} className={classes.button}>
         <CancelIcon/>

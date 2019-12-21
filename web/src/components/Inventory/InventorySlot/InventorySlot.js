@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import { connect, useSelector } from 'react-redux';
 import { setDescription } from '../DescriptionBox/actions';
-import { dropItem, moveItem, setHoverItem } from '../../UI/AppScreen/actions';
+import { dropItem, moveItem, setHoverItem, useItem } from '../../UI/AppScreen/actions';
 import CountSelector from '../../UI/CountSelector/CountSelector';
 
 const useStyles = makeStyles(theme => ({
@@ -97,6 +97,9 @@ export default connect()((props) => {
         }
         break;
       }
+      case 'use': {
+        useItem(props.slot, props.type, props.item, props.owner)
+      }
     }
     setState(initialState);
   };
@@ -142,11 +145,6 @@ export default connect()((props) => {
     item.Count = count;
     props.dispatch(dropItem(props.slot, props.type, item, props.owner));
   };
-
-  if (props.item) {
-    console.log(props.item.MetaData);
-  }
-
   return (
     <Grid item xs={props.xs} onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
@@ -186,24 +184,24 @@ export default connect()((props) => {
             : undefined
         }
       >
-        <MenuItem onClick={handleClose}>
+        {!props.hideUse && <MenuItem onClick={handleClose} id={'use'}>
           Use
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
+        </MenuItem> }
+        {!props.hideGive && <MenuItem onClick={handleClose}>
           Give
-        </MenuItem>
-        <MenuItem onClick={handleClose} id={'drop'}>
+        </MenuItem> }
+        {!props.hideDrop && <MenuItem onClick={handleClose} id={'drop'}>
           Drop
-        </MenuItem>
+        </MenuItem> }
         {props.item.Count > 1 && <MenuItem onClick={handleClose} id={'split'}>
           Split
         </MenuItem>}
       </Menu>}
       {countState && <CountSelector open={countState} setDialogState={setCountState}
                                     maxCount={hoverItem != null ? hoverItem.data.item.Count - 1 : props.item.Count - 1}
-                                    action={split}/>}
+                                    action={split} actionName={"Split"}/>}
       {dropCountState && <CountSelector open={dropCountState} setDialogState={setDropCountState}
                                         maxCount={props.item.Count}
-                                        action={drop}/>}
+                                        action={drop} actionName={"Drop"}/>}
     </Grid>);
 });

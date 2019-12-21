@@ -12,6 +12,7 @@ namespace disc_inventoryhud_client.Utils
     {
         public const string MOVE_ITEM = "MOVE_ITEM";
         public const string DROP_ITEM = "DROP_ITEM";
+        public const string USE_ITEM = "USE_ITEM";
 
     }
 }

@@ -10,11 +10,12 @@ namespace disc_inventoryhud_client.ESX
 {
     class ESXHandler : BaseScript
     {
-        public dynamic Instance { get; private set; }
+        public static dynamic Instance { get; private set; }
         public bool Loaded { get; set; } = false;
 
         public ESXHandler()
         {
+            Instance = this;
             Tick += ObtainESX;
             EventHandlers["esx:setJob"] += new Action<DynamicObject>(SetJob);
         }

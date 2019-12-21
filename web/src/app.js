@@ -20,7 +20,6 @@ const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('app');
 
 const closeUI = (event) => {
-  console.log(event.keyCode);
   if (event.keyCode === 27) {
     Nui.send('CloseUI');
     props.dispatch(hideApp);

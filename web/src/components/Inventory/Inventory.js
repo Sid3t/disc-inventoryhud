@@ -31,6 +31,9 @@ export default (props) => {
                                type={type}
                                item={data[slot.toString()]}
                                drawSlot={props.drawSlotNumber}
+                               hideUse={props.hideUse}
+                               hideGive={props.hideGive}
+                               hideDrop={props.hideDrop}
         />,
       )}
     </Grid>

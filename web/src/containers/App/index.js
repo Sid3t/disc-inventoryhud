@@ -14,8 +14,7 @@ const App = ({ hidden }) => {
 
   return (
     <MuiThemeProvider theme={Theme}>
-      <Screen hidden={hidden}>
-      </Screen>
+      <Screen hidden={hidden} />
     </MuiThemeProvider>
 
   );

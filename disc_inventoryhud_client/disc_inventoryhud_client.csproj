@@ -72,10 +72,12 @@
     <Compile Include="ESX\ESXHandler.cs" />
     <Compile Include="Inventory\Actions.cs" />
     <Compile Include="Inventory\Drop.cs" />
+    <Compile Include="Inventory\Glovebox\GloveboxHandler.cs" />
     <Compile Include="Inventory\Info\ItemDataHandler.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\InventoryData.cs" />
     <Compile Include="Inventory\InventorySlot.cs" />
+    <Compile Include="Inventory\Vehicle\VehicleHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Utils\Callbacks.cs" />
     <Compile Include="Utils\NUI.cs" />

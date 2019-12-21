@@ -36,6 +36,10 @@ namespace disc_inventoryhud_client.Inventory
             {
                 TriggerServerEvent(Events.MoveItem, data);
             });
+            NUI.Instance.RegisterNUICallback(Callbacks.USE_ITEM, (data) =>
+            {
+                TriggerServerEvent(Events.UseItem, data);
+            });
         }
 
         public void InitEventHandlers()

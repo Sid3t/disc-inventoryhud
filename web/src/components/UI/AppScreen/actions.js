@@ -6,6 +6,7 @@ export const SET_HOVER_ITEM = 'SET_HOVER_ITEM';
 export const CLEAR_HOVER_ITEM = 'CLEAR_HOVER_ITEM';
 export const MOVE_ITEM = 'MOVE_ITEM';
 export const DROP_ITEM = 'DROP_ITEM';
+export const USE_ITEM = 'USE_ITEM';
 
 
 export const setHoverItem = (slot, item, type, owner) => {
@@ -34,7 +35,6 @@ export const moveItem = (slot, type, item, owner) => {
         typeTo: type,
       },
     };
-    console.log(JSON.stringify(payload, null, 2));
     Nui.send(MOVE_ITEM, payload);
     dispatch({
         type: MOVE_ITEM,
@@ -62,4 +62,16 @@ export const dropItem = (slot, type, item, owner) => {
       },
     );
   };
+};
+
+export const useItem = (slot, type, item, owner) => {
+  const payload = {
+    data: {
+      slotFrom: slot,
+      typeFrom: type,
+      ownerFrom: owner,
+      item: item,
+    },
+  };
+  Nui.send(USE_ITEM, payload);
 };

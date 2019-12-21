@@ -30,11 +30,6 @@ export default (props) => {
     <Paper className={classes.paper}>
       <Grid container justify={'center'} alignItems={'center'} spacing={3} className={classes.inventory}>
         <Grid item xs={12} className={classes.gridItem}>
-          <Paper className={classes.paper}>
-            This is User Info
-          </Paper>
-        </Grid>
-        <Grid item xs={12} className={classes.gridItem}>
           <DescriptionBox />
         </Grid>
       </Grid>

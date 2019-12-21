@@ -6,9 +6,10 @@ import { connect, useSelector } from 'react-redux';
 import CloseButton from '../CloseButton/CloseButton';
 import Paper from '@material-ui/core/Paper';
 import HoverItem from '../../Inventory/HoverItem/HoverItem';
-import DoubleInventory from '../../Inventory/DoubleInventory/DoubleInventory';
 import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
-import DropInventory from '../../DropInventory/DropInventory';
+import DropInventory from '../../Inventories/DropInventory/DropInventory';
+import VehicleInventory from '../../Inventories/VehicleInventory/VehicleInventory';
+import GloveboxInventory from '../../Inventories/GloveboxInventory/GloveboxInventory';
 
 const useStyles = makeStyles(theme => ({
   outsideDiv: {
@@ -64,8 +65,14 @@ export default connect()(function AppScreen(props) {
   const [inv, setInv] = useState(<SingleInventory/>);
   useEffect(() => {
     switch (invType) {
-      case "drop" :
+      case 'drop' :
         setInv(<DropInventory/>);
+        break;
+      case 'vehicle':
+        setInv(<VehicleInventory/>);
+        break;
+      case 'glovebox' :
+        setInv(<GloveboxInventory/>);
         break;
       default:
         setInv(<SingleInventory/>);
@@ -76,10 +83,10 @@ export default connect()(function AppScreen(props) {
     <Grid style={{ visibility: props.hidden ? 'hidden' : 'visible' }} className={classes.outsideDiv}>
       <HoverItem/>
       <Grid container className={classes.insideDiv} justify={'center'}>
+        <CloseButton/>
         <Paper className={classes.paper}>
           {inv}
         </Paper>
-        <CloseButton/>
       </Grid>
     </Grid>
   );

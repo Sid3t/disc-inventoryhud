@@ -40,7 +40,7 @@ export default (props) => {
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory data={inventory}/>
+            <Inventory data={inventory} hideUse hideDrop hideGive/>
           </Grid>
           <Grid item xs={12}>
             <Hotbar data={hotbar}/>
@@ -50,7 +50,7 @@ export default (props) => {
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12} className={classes.gridItem}>
-            <Inventory data={props.inventory}/>
+            <Inventory data={props.inventory} hideUse hideDrop hideGive/>
           </Grid>
           <Grid item xs={12} className={classes.description}>
             <DescriptionBox/>
