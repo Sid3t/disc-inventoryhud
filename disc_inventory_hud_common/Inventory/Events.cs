@@ -20,5 +20,8 @@ namespace disc_inventoryhud_common.Inventory
         public const string UpdateInfo = prefix + "updateInfo";
         public const string OpenTrunk = prefix + "openTrunk";
         public const string OpenGlovebox = prefix + "openGlovebox";
+        public const string OpenStash = prefix + "openStash";
+        public const string AddStash = prefix + "addStash";
+        public const string RemoveStash = prefix + "removeStash";
     }
 }

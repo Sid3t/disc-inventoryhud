@@ -15,6 +15,10 @@ export const initialState = {
     Type: 'drop',
     Inventory: {},
   },
+  stash: {
+    Type: 'stash',
+    Inventory: {},
+  },
   vehicle: {
     Type: 'vehicle',
     Inventory: {},
@@ -37,6 +41,7 @@ export const initialState = {
 const inventoryReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_INVENTORY: {
+      console.log(JSON.stringify(action.payload.data, null, 2));
       return {
         ...state,
         [action.payload.data['Type']]: {

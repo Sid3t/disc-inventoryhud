@@ -1,6 +1,8 @@
 ﻿using CitizenFX.Core;
+using disc_inventoryhud_common.Inv;
 using disc_inventoryhud_common.Inventory;
 using disc_inventoryhud_server.MySQL;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -24,20 +26,32 @@ namespace disc_inventoryhud_server.Inventory.Glovebox
                 ["@owner"] = plate,
                 ["@type"] = "glovebox"
             };
-
+            KeyValuePair<string, string> kp = new KeyValuePair<string, string>("glovebox", plate);
             MySQLHandler.Instance.FetchAll("SELECT * FROM disc_inventory WHERE owner=@owner AND type=@type", pars, new Action<List<dynamic>>((objs) =>
             {
                 if (objs.Count == 1)
                 {
-                    player.TriggerEvent(Events.OpenGlovebox, objs.First());
-                }
-                else
-                {
-                    player.TriggerEvent(Events.OpenGlovebox, new InventoryData
+                    InventoryData data = new InventoryData
                     {
                         Owner = plate,
                         Type = "glovebox"
-                    });
+                    };
+                    foreach (dynamic obj in objs)
+                    {
+                        data.Inventory.Add(obj.slot, JsonConvert.DeserializeObject<InventorySlot>(obj.data));
+                    }
+                    Inventory.Instance.LoadedInventories[kp] = data;
+                    player.TriggerEvent(Events.OpenGlovebox, data);
+                }
+                else
+                {
+                    InventoryData data = new InventoryData
+                    {
+                        Owner = plate,
+                        Type = "glovebox"
+                    };
+                    Inventory.Instance.LoadedInventories[kp] = data;
+                    player.TriggerEvent(Events.OpenGlovebox, data);
                 }
             }));
         }

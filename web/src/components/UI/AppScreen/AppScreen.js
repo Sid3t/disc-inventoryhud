@@ -10,6 +10,7 @@ import SingleInventory from '../../Inventory/SingleInventory/SingleInventory';
 import DropInventory from '../../Inventories/DropInventory/DropInventory';
 import VehicleInventory from '../../Inventories/VehicleInventory/VehicleInventory';
 import GloveboxInventory from '../../Inventories/GloveboxInventory/GloveboxInventory';
+import StashInventory from '../../Inventories/StashInventory/StashInventory';
 
 const useStyles = makeStyles(theme => ({
   outsideDiv: {
@@ -56,6 +57,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     position: 'relative',
     zIndex: -1,
+    backgroundColor: 'rgba(44,47,51,0.1)',
   },
 }));
 
@@ -73,6 +75,9 @@ export default connect()(function AppScreen(props) {
         break;
       case 'glovebox' :
         setInv(<GloveboxInventory/>);
+        break;
+      case 'stash' :
+        setInv(<StashInventory/>);
         break;
       default:
         setInv(<SingleInventory/>);

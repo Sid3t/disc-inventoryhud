@@ -47,7 +47,6 @@ export default (props) => {
       <Grid item xs={6} className={classes.inventory}>
         <Grid container justify={'flex-start'} alignItems={'flex-start'} spacing={3} className={classes.inventory}>
           <Grid item xs={12}>
-            <Inventory slotCount={2} data={equipment}/>
           </Grid>
           <Grid item xs={12} className={classes.gridItem}>
             <RightSideInfo/>

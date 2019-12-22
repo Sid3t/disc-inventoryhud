@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0),
     width: '100%',
     height: '100%',
+    backgroundColor: 'rgba(44,47,51,0.8)',
   },
 }));
 

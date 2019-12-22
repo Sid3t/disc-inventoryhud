@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     textAlign: 'center',
     userSelect: 'none',
+    backgroundColor: 'rgba(44,47,51,0.8)',
   },
   menu: {
     padding: theme.spacing(2),
@@ -42,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     height: '20%',
     userSelect: 'none',
+    backgroundColor: 'rgba(44,47,51,0.1)',
   },
   slotNumberGrid: {
     position: 'absolute',
@@ -50,6 +52,7 @@ const useStyles = makeStyles(theme => ({
     width: '20%',
     height: '20%',
     userSelect: 'none',
+    backgroundColor: 'rgba(44,47,51,0.1)',
   },
 }));
 const initialState = {

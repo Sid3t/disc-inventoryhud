@@ -27,12 +27,10 @@ const useStyles = makeStyles(theme => ({
 export default (props) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.paper}>
       <Grid container justify={'center'} alignItems={'center'} spacing={3} className={classes.inventory}>
         <Grid item xs={12} className={classes.gridItem}>
           <DescriptionBox />
         </Grid>
       </Grid>
-    </Paper>
   );
 }

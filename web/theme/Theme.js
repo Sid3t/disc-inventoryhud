@@ -20,17 +20,6 @@ const theme = createMuiTheme(
       error: red,
     },
     overrides: {
-      MuiPaper: {
-        root: {
-          backgroundColor: 'rgba(44,47,51,0.1)',
-        },
-        elevation1: {
-          backgroundColor: 'rgba(44,47,51,0.8)',
-        },
-        elevation24: {
-          backgroundColor: 'rgba(44,47,51,0.8)',
-        }
-      },
       MuiDivider: {
         root: {
           backgroundColor: '#b71c1c',
