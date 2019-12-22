@@ -19,6 +19,7 @@ create table esx_essentialmode.disc_inventory_itemdata
 	label varchar(50) not null,
 	meta tinyint(1) default 0 not null,
 	itemurl text not null,
+	close tinyint(1) default 0 not null,
 	constraint disc_inventory_itemdata_item_uindex
 		unique (item),
 	constraint id
