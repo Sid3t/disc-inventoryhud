@@ -29,7 +29,7 @@ namespace disc_inventoryhud_server.Inventory
         public Drop()
         {
             Instance = this;
-            LoadDrops();
+            EventHandlers["onMySQLReady"] += new Action(LoadDrops);
         }
 
         public void LoadDrops()
