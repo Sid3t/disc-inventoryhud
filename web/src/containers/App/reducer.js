@@ -1,7 +1,8 @@
-import { APP_HIDE, APP_SHOW } from './actions';
+import { APP_HIDE, APP_SHOW, HOTBAR_HIDE, HOTBAR_SHOW } from './actions';
 
 export const initialState = {
   hidden: true,
+  hotbar: false
 };
 
 const appReducer = (state = initialState, action) => {
@@ -15,6 +16,16 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         hidden: true,
+      };
+    case HOTBAR_SHOW:
+      return {
+        ...state,
+        hotbar: true,
+      };
+    case HOTBAR_HIDE:
+      return {
+        ...state,
+        hotbar: false,
       };
     default:
       return state;

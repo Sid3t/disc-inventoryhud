@@ -73,6 +73,7 @@
     <Compile Include="Inventory\Actions.cs" />
     <Compile Include="Inventory\Drop.cs" />
     <Compile Include="Inventory\Glovebox\GloveboxHandler.cs" />
+    <Compile Include="Inventory\Hotkeys\HotKeysHandler.cs" />
     <Compile Include="Inventory\Info\ItemDataHandler.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\InventoryData.cs" />

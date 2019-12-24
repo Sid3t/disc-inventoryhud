@@ -11,6 +11,7 @@ import DropInventory from '../../Inventories/DropInventory/DropInventory';
 import VehicleInventory from '../../Inventories/VehicleInventory/VehicleInventory';
 import GloveboxInventory from '../../Inventories/GloveboxInventory/GloveboxInventory';
 import StashInventory from '../../Inventories/StashInventory/StashInventory';
+import ShowHotbar from '../../Inventory/ShowHotbar/ShowHotbar';
 
 const useStyles = makeStyles(theme => ({
   outsideDiv: {
@@ -93,6 +94,7 @@ export default connect()(function AppScreen(props) {
           {inv}
         </Paper>
       </Grid>
+      <ShowHotbar/>
     </Grid>
   );
 });

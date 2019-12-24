@@ -52,6 +52,7 @@
     <Compile Include="ESX\ESXHandler.cs" />
     <Compile Include="Inventory\Drop.cs" />
     <Compile Include="Inventory\Glovebox\GloveboxHandler.cs" />
+    <Compile Include="Inventory\HotKeys\HotKeysHandler.cs" />
     <Compile Include="Inventory\Info\ItemData.cs" />
     <Compile Include="Inventory\Info\ItemDataHandler.cs" />
     <Compile Include="Inventory\Inventory.cs" />

@@ -23,5 +23,6 @@ namespace disc_inventoryhud_common.Inventory
         public const string OpenStash = prefix + "openStash";
         public const string AddStash = prefix + "addStash";
         public const string RemoveStash = prefix + "removeStash";
+        public const string HotKeyUse = prefix + "hotkeyUse";
     }
 }
