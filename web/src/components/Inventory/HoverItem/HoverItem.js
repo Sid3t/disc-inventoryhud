@@ -34,6 +34,8 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     height: '20%',
     userSelect: 'none',
+  },
+  paper: {
     backgroundColor: 'rgba(44,47,51,0.1)',
   },
   slotNumberGrid: {
@@ -43,7 +45,6 @@ const useStyles = makeStyles(theme => ({
     width: '20%',
     height: '20%',
     userSelect: 'none',
-    backgroundColor: 'rgba(44,47,51,0.1)',
   },
   name: {
     bottom: 0,
@@ -52,6 +53,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     position: 'absolute',
     transform: 'translate(-50%, 0%)',
+    backgroundColor: 'rgba(44,47,51,0.1)',
   },
 }));
 
@@ -92,7 +94,7 @@ export default (props) => {
                unloader={<Typography variant={'body2'}>{hover.data.item.Name}</Typography>}/>
           <Grid className={classes.countGrid} spacing={1} container justify={'center'} alignItems={'center'}>
             <Grid item xs={12}>
-              <Paper>{hover.data.item.Count}</Paper>
+              <Paper className={classes.paper}>{hover.data.item.Count}</Paper>
             </Grid>
           </Grid>
           <Paper className={classes.name}>{itemData().Label}</Paper>

@@ -21,6 +21,7 @@ namespace disc_inventoryhud_client.Inventory
         public Drop()
         {
             EventHandlers[Events.UpdateDrops] += new Action<IDictionary<string, dynamic>>(UpdateServerDrops);
+            EventHandlers[Events.OpenDrop] += new Action<ExpandoObject>(Open);
             NUI.Instance.RegisterNUICallback(Callbacks.DROP_ITEM, DropItem);
         }
 
@@ -64,11 +65,7 @@ namespace disc_inventoryhud_client.Inventory
                         msg = "Press ~INPUT_CONTEXT~ for Drop",
                         action = new Action<dynamic>(m =>
                         {
-
-                            API.SendNuiMessage(Actions.SET_INVENTORY(kp.Value));
-                            API.SendNuiMessage(Actions.SET_INVENTORY_TYPE("drop"));
-                            API.SendNuiMessage(Actions.APP_SHOW);
-                            API.SetNuiFocus(true, true);
+                            TriggerServerEvent(Events.OpenDrop, kp.Value.Owner);
                         })
                     };
                     kp.Value.Active = false;
@@ -103,6 +100,14 @@ namespace disc_inventoryhud_client.Inventory
                 dataData.Add("slotTo", 1);
             }
             TriggerServerEvent(Events.MoveItem, data);
+        }
+
+        public void Open(ExpandoObject obj)
+        {
+            API.SendNuiMessage(Actions.SET_INVENTORY(obj));
+            API.SendNuiMessage(Actions.SET_INVENTORY_TYPE("drop"));
+            API.SendNuiMessage(Actions.APP_SHOW);
+            API.SetNuiFocus(true, true);
         }
     }
 }

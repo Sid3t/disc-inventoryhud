@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
   grid: {
     bottom: 0,
     position: 'absolute',
-    width: '100%'
+    width: '100%',
   },
 }));
 
@@ -17,10 +17,10 @@ export default (props) => {
   const hotbar = useSelector(state => state.inventory.hotbar);
   const show = useSelector(state => state.app.hotbar);
   return (
-    <Grid className={classes.grid} style={{ visibility: show ? 'visible' : 'hidden' }} container >
+    <Grid className={classes.grid} style={{ visibility: show ? 'visible' : 'hidden' }} container>
       <Grid item xs={3}/>
       <Grid item xs={6}>
-        <Hotbar data={hotbar}/>S
+        <Hotbar data={hotbar}/>
       </Grid>
       <Grid item xs={3}/>
     </Grid>

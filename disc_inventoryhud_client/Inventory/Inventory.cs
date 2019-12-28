@@ -26,11 +26,11 @@ namespace disc_inventoryhud_client.Inventory
         {
             API.RegisterCommand("closeUI", new Action<int, List<object>, string>((src, args, raw) =>
             {
-                Close();
+                Close(API.GetPlayerServerId(API.PlayerId()));
             }), false);
             NUI.Instance.RegisterNUICallback("CloseUI", (data) =>
             {
-                Close();
+                Close(API.GetPlayerServerId(API.PlayerId()));
             });
             NUI.Instance.RegisterNUICallback(Callbacks.MOVE_ITEM, (data) =>
             {
@@ -56,7 +56,7 @@ namespace disc_inventoryhud_client.Inventory
         {
             if (ResourceName == API.GetCurrentResourceName())
             {
-                Close();
+                Close(API.GetPlayerServerId(API.PlayerId()));
             }
         }
 
@@ -77,9 +77,10 @@ namespace disc_inventoryhud_client.Inventory
             API.SetNuiFocus(true, true);
         }
 
-        private void Close()
+        private void Close(int Handle)
         {
             API.SetNuiFocus(false, false);
+            TriggerServerEvent(Events.CloseInventory, Handle);
         }
     }
 }

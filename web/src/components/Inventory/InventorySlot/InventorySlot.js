@@ -36,6 +36,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     position: 'absolute',
     transform: 'translate(-50%, 0%)',
+    backgroundColor: 'rgba(44,47,51,0.1)',
+  },
+  paper: {
+    backgroundColor: 'rgba(44,47,51,0.1)',
   },
   countGrid: {
     position: 'absolute',
@@ -43,7 +47,6 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     height: '20%',
     userSelect: 'none',
-    backgroundColor: 'rgba(44,47,51,0.1)',
   },
   slotNumberGrid: {
     position: 'absolute',
@@ -52,7 +55,6 @@ const useStyles = makeStyles(theme => ({
     width: '20%',
     height: '20%',
     userSelect: 'none',
-    backgroundColor: 'rgba(44,47,51,0.1)',
   },
 }));
 const initialState = {
@@ -162,7 +164,7 @@ export default connect()((props) => {
                unloader={<Typography variant={'body2'}>{props.item.id}</Typography>}/>
           <Grid className={classes.countGrid} spacing={1} container justify={'center'} alignItems={'center'}>
             <Grid item xs={12}>
-              <Paper>{props.item.Count}</Paper>
+              <Paper className={classes.paper}>{props.item.Count}</Paper>
             </Grid>
           </Grid>
           <Paper className={classes.name}>{itemData().Label}</Paper>
@@ -171,7 +173,7 @@ export default connect()((props) => {
         {props.drawSlot &&
         <Grid spacing={1} className={classes.slotNumberGrid} container justify={'center'} alignItems={'center'}>
           <Grid item xs={12}>
-            <Paper>{props.slot}</Paper>
+            <Paper className={classes.paper}>{props.slot}</Paper>
           </Grid>
         </Grid>}
       </Paper>

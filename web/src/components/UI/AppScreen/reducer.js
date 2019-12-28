@@ -35,6 +35,10 @@ export const initialState = {
     Type: 'equipment',
     Inventory: {},
   },
+  search: {
+    Type: 'search',
+    Inventory: {},
+  },
   hoverItem: null,
 };
 

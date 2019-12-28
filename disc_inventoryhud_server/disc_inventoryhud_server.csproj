@@ -59,6 +59,7 @@
     <Compile Include="Inventory\InventoryData.cs" />
     <Compile Include="Inventory\InventorySlot.cs" />
     <Compile Include="Inventory\ItemHandler.cs" />
+    <Compile Include="Inventory\Search\SearchHandler.cs" />
     <Compile Include="Inventory\Stash\StashHandler.cs" />
     <Compile Include="Inventory\Vehicle\VehicleHandler.cs" />
     <Compile Include="Main.cs" />

@@ -21,8 +21,11 @@ namespace disc_inventoryhud_common.Inventory
         public const string OpenTrunk = prefix + "openTrunk";
         public const string OpenGlovebox = prefix + "openGlovebox";
         public const string OpenStash = prefix + "openStash";
+        public const string OpenDrop = prefix + "openDrop";
+        public const string OpenSearch = prefix + "openSearch";
         public const string AddStash = prefix + "addStash";
         public const string RemoveStash = prefix + "removeStash";
         public const string HotKeyUse = prefix + "hotkeyUse";
+        public const string CloseInventory = prefix + "closeInventory";
     }
 }

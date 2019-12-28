@@ -30,6 +30,7 @@ namespace disc_inventoryhud_server.Inventory
         {
             Instance = this;
             EventHandlers["onMySQLReady"] += new Action(LoadDrops);
+            EventHandlers[Events.OpenDrop] += new Action<Player, string>(Open);
         }
 
         public void LoadDrops()
@@ -73,6 +74,34 @@ namespace disc_inventoryhud_server.Inventory
         public static string toOwner(Vector3 vector)
         {
             return 'x' + vector.X.ToString() + 'y' + vector.Y.ToString() + 'z' + vector.Z.ToString();
+        }
+
+        public void Open([FromSource] Player player, string dropCoords)
+        {
+            var pars = new Dictionary<string, object>
+            {
+                ["@owner"] = dropCoords,
+                ["@type"] = "drop"
+            };
+
+            KeyValuePair<string, string> kp = new KeyValuePair<string, string>("drop", dropCoords);
+            if (Inventory.Instance.OpenInventories.ContainsKey(kp)) return;
+            Inventory.Instance.OpenInventories[kp] = player.Handle;
+
+            MySQLHandler.Instance.FetchAll("SELECT * FROM disc_inventory WHERE owner=@owner AND type=@type", pars, new Action<List<dynamic>>((objs) =>
+            {
+                InventoryData data = new InventoryData
+                {
+                    Owner = dropCoords,
+                    Type = "drop"
+                };
+                foreach (dynamic obj in objs)
+                {
+                    data.Inventory.Add(obj.slot, JsonConvert.DeserializeObject<InventorySlot>(obj.data));
+                }
+                Inventory.Instance.LoadedInventories[kp] = data;
+                player.TriggerEvent(Events.OpenDrop, data);
+            }));
         }
     }
 }

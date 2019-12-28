@@ -12,6 +12,7 @@ import VehicleInventory from '../../Inventories/VehicleInventory/VehicleInventor
 import GloveboxInventory from '../../Inventories/GloveboxInventory/GloveboxInventory';
 import StashInventory from '../../Inventories/StashInventory/StashInventory';
 import ShowHotbar from '../../Inventory/ShowHotbar/ShowHotbar';
+import SearchInventory from '../../Inventories/SearchInventory/SearchInventory';
 
 const useStyles = makeStyles(theme => ({
   outsideDiv: {
@@ -79,6 +80,9 @@ export default connect()(function AppScreen(props) {
         break;
       case 'stash' :
         setInv(<StashInventory/>);
+        break;
+      case 'search' :
+        setInv(<SearchInventory/>);
         break;
       default:
         setInv(<SingleInventory/>);

@@ -19,13 +19,21 @@ namespace disc_inventoryhud_server.Inventory
         public static Inventory Instance { get; private set; }
 
         public Dictionary<KeyValuePair<string, string>, InventoryData> LoadedInventories = new Dictionary<KeyValuePair<string, string>, InventoryData>();
+        public Dictionary<KeyValuePair<string, string>, string> OpenInventories = new Dictionary<KeyValuePair<string, string>, string>();
 
         public Inventory()
         {
             Instance = this;
             EventHandlers["onResourceStart"] += new Action<string>(onResourceStart);
             EventHandlers["esx:playerLoaded"] += new Action<int>(PlayerLoaded);
+            EventHandlers["esx:playerDropped"] += new Action<int>(PlayerDropped);
             EventHandlers[Events.MoveItem] += new Action<Player, IDictionary<string, dynamic>>(MoveItem);
+            EventHandlers[Events.CloseInventory] += new Action<string>(CloseInventory);
+        }
+
+        public void CloseInventory(string Handle)
+        {
+            OpenInventories.Where(value => value.Value == Handle).Select(value => value.Key).ToList().ForEach(value => OpenInventories.Remove(value));
         }
 
 
@@ -36,7 +44,11 @@ namespace disc_inventoryhud_server.Inventory
 
         public void PlayerLoaded(int source)
         {
-            SyncPlayer(Players.First(player => player.Handle == source.ToString()));
+            SyncPlayer(Players[source]);
+        }
+        public void PlayerDropped(int source)
+        {
+            CloseInventory(Players[source].Handle);
         }
 
         public void SyncPlayers()
@@ -85,15 +97,29 @@ namespace disc_inventoryhud_server.Inventory
             return inventoryData;
         }
 
-        public void MoveItem([FromSource] Player player, IDictionary<string, dynamic> data)
+        public async void MoveItem([FromSource] Player player, IDictionary<string, dynamic> data)
         {
             var movingData = data.FirstOrDefault().Value;
+            var searchTo = false;
+            var searchFrom = false;
+            if(movingData.typeFrom == "search")
+            {
+                movingData.typeFrom = "player";
+                searchFrom = true;
+            }
+            if (movingData.typeTo == "search")
+            {
+                movingData.typeTo = "player";
+                searchTo = true;
+            }
+
             if (movingData.typeFrom == movingData.typeTo && movingData.ownerFrom == movingData.ownerTo)
             {
                 var key = new KeyValuePair<string, string>(movingData.typeFrom, movingData.ownerFrom);
                 var inv = LoadedInventories[key];
                 var slotFrom = inv.Inventory[movingData.slotFrom];
-                if (movingData.slotTo == -1) {
+                if (movingData.slotTo == -1)
+                {
                     movingData.slotTo = inv.Inventory.Count() + 1;
                 }
                 if (!inv.Inventory.ContainsKey(movingData.slotTo) || inv.Inventory[movingData.slotTo].Id == movingData.item.Id)
@@ -203,6 +229,15 @@ namespace disc_inventoryhud_server.Inventory
             if (movingData.typeFrom == "drop" || movingData.typeTo == "drop")
             {
                 Drop.Instance.SyncDrops();
+            }
+            await Delay(1000);
+            if(searchFrom)
+            {
+                SyncPlayer(Players[ESXHandler.Instance.GetPlayerFromIdentifier(movingData.ownerFrom).source]);
+            }
+            if (searchTo)
+            {
+                SyncPlayer(Players[ESXHandler.Instance.GetPlayerFromIdentifier(movingData.ownerTo).source]);
             }
         }
 

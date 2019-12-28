@@ -26,7 +26,12 @@ namespace disc_inventoryhud_server.Inventory.Vehicle
                 ["@type"] = "vehicle"
             };
 
+
             KeyValuePair<string, string> kp = new KeyValuePair<string, string>("vehicle", plate);
+
+            if (Inventory.Instance.OpenInventories.ContainsKey(kp)) return;
+            Inventory.Instance.OpenInventories[kp] = player.Handle;
+
             MySQLHandler.Instance.FetchAll("SELECT * FROM disc_inventory WHERE owner=@owner AND type=@type", pars, new Action<List<dynamic>>((objs) =>
             {
                 if (objs.Count == 1)
