@@ -19,7 +19,7 @@ namespace disc_inventoryhud_server.Inventory.Info
         public ItemDataHandler()
         {
             Instance = this;
-            LoadInfo();
+            EventHandlers["onMySQLReady"]  += new Action(LoadInfo);
             EventHandlers["esx:playerLoaded"] += new Action<int>(LoadInfoForPlayer);
         }
 
