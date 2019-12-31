@@ -40,14 +40,15 @@ namespace disc_inventoryhud_client.Inventory
             {
                 TriggerServerEvent(Events.UseItem, data);
             });
+            EventHandlers[Events.OpenInventory] += new Action<ExpandoObject, ExpandoObject>(Open);
         }
 
         public void InitEventHandlers()
         {
             EventHandlers["onResourceStop"] += new Action<string>(onResourceStop);
-            EventHandlers[Events.UpdateInventory] += new Action<dynamic>((inv) => {
+            EventHandlers[Events.UpdateInventory] += new Action<dynamic>((inv) =>
+            {
                 Debug.WriteLine("Loading Inventory");
-                Debug.WriteLine(JsonConvert.SerializeObject(inv));
                 API.SendNuiMessage(Actions.SET_INVENTORY(inv));
             });
         }
@@ -66,12 +67,14 @@ namespace disc_inventoryhud_client.Inventory
         {
             if (API.IsControlJustReleased(0, 289))
             {
-                Open();
+                TriggerServerEvent(Events.OpenInventory);
             }
         }
 
-        private void Open()
+        private void Open(ExpandoObject inv, ExpandoObject hotbar)
         {
+            API.SendNuiMessage(Actions.SET_INVENTORY(inv));
+            API.SendNuiMessage(Actions.SET_INVENTORY(hotbar));
             API.SendNuiMessage(Actions.SET_INVENTORY_TYPE("single"));
             API.SendNuiMessage(Actions.APP_SHOW);
             API.SetNuiFocus(true, true);

@@ -29,13 +29,23 @@ namespace disc_inventoryhud_server.Inventory
             EventHandlers["esx:playerDropped"] += new Action<int>(PlayerDropped);
             EventHandlers[Events.MoveItem] += new Action<Player, IDictionary<string, dynamic>>(MoveItem);
             EventHandlers[Events.CloseInventory] += new Action<string>(CloseInventory);
+            EventHandlers[Events.OpenInventory] += new Action<Player>(OpenInventory);
+        }
+
+        public void OpenInventory([FromSource] Player player)
+        {
+            var xPlayer = ESXHandler.Instance.GetPlayerFromId(player.Handle);
+            var kpInv = new KeyValuePair<string, string>("player", xPlayer.identifier);
+            if (OpenInventories.ContainsKey(kpInv)) return;
+            OpenInventories[kpInv] = player.Handle;
+            var kpHotbar= new KeyValuePair<string, string>("hotbar", xPlayer.identifier);
+            player.TriggerEvent(Events.OpenInventory, LoadedInventories[kpInv], LoadedInventories[kpHotbar]);
         }
 
         public void CloseInventory(string Handle)
         {
             OpenInventories.Where(value => value.Value == Handle).Select(value => value.Key).ToList().ForEach(value => OpenInventories.Remove(value));
         }
-
 
         public void onResourceStart(string resource)
         {
@@ -78,7 +88,7 @@ namespace disc_inventoryhud_server.Inventory
 
             MySQLHandler.Instance?.FetchAll("SELECT * FROM disc_inventory WHERE owner=@owner AND type=@type", pars, new Action<List<dynamic>>((objs) =>
             {
-                destination.TriggerEvent(Events.UpdateInventory, LoadInventory(owner, type, objs));
+                LoadInventory(owner, type, objs);
             }));
         }
 
@@ -200,7 +210,6 @@ namespace disc_inventoryhud_server.Inventory
                     }
                     else
                     {
-                        Debug.WriteLine(JsonConvert.SerializeObject(movingData));
                         if (movingData.slotTo == -1)
                         {
                             movingData.slotTo = 1;

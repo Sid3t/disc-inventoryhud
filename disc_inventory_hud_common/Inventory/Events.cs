@@ -18,6 +18,7 @@ namespace disc_inventoryhud_common.Inventory
         public const string UseItem = prefix + "useItem";
         public const string RemoveItem = prefix + "removeItem";
         public const string UpdateInfo = prefix + "updateInfo";
+        public const string OpenInventory = prefix + "openInventory";
         public const string OpenTrunk = prefix + "openTrunk";
         public const string OpenGlovebox = prefix + "openGlovebox";
         public const string OpenStash = prefix + "openStash";

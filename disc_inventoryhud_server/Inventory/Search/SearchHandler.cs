@@ -26,7 +26,6 @@ namespace disc_inventoryhud_server.Inventory.Search
             KeyValuePair<string, string> kp = new KeyValuePair<string, string>("player", owner);
             if (Inventory.Instance.OpenInventories.ContainsKey(kp)) return;
             Inventory.Instance.OpenInventories[kp] = player.Handle;
-            ;
             var newInv = new InventoryData
             {
                 Owner = owner,
