@@ -1,4 +1,4 @@
-﻿create table esx_essentialmode.disc_inventory
+﻿create table disc_inventory
 (
 	id int auto_increment
 		primary key,
@@ -9,9 +9,9 @@
 );
 
 create index disc_inventory_owner_type_index
-	on esx_essentialmode.disc_inventory (owner, type);
+	on disc_inventory (owner, type);
 
-create table esx_essentialmode.disc_inventory_itemdata
+create table disc_inventory_itemdata
 (
 	id bigint unsigned auto_increment,
 	item varchar(50) not null,
