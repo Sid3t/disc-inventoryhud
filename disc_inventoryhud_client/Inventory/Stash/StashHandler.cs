@@ -22,11 +22,6 @@ namespace disc_inventoryhud_client.Inventory.Stash
             EventHandlers[Events.OpenStash] += new Action<ExpandoObject>(Open);
             EventHandlers[Events.AddStash] += new Action<string, Vector3>(AddStash);
             EventHandlers[Events.RemoveStash] += new Action<string>(RemoveStash);
-            API.RegisterCommand("createstash", new Action<int, List<object>, string>((src, args, raw) =>
-            {
-                var coords = API.GetEntityCoords(API.PlayerPedId(), true);
-                TriggerEvent(Events.AddStash, args[0].ToString(), coords);
-            }), false);
         }
 
         private void LoadStashes(List<Stash> stashes)
