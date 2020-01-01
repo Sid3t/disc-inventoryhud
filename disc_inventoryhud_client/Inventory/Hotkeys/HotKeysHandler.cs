@@ -11,7 +11,7 @@ namespace disc_inventoryhud_client.Inventory.Hotkeys
 {
     class HotKeysHandler : BaseScript
     {
-        private List<int> Keys = new List<int> { 157, 158, 160, 164, 165 };
+        private List<int> Keys = new List<int> { 157, 158, 160, 164, 165, 159 };
 
         [Tick]
         public async Task HandleHotKeys()
