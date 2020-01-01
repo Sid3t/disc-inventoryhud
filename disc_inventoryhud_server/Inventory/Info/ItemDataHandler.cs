@@ -11,15 +11,14 @@ namespace disc_inventoryhud_server.Inventory.Info
 {
     public class ItemDataHandler : BaseScript
     {
-        public ItemDataHandler Instance { get; private set; }
+        public static ItemDataHandler Instance { get; private set; }
 
         public Dictionary<string, ItemData> itemDatas = new Dictionary<string, ItemData>();
-        
 
         public ItemDataHandler()
         {
             Instance = this;
-            EventHandlers["onMySQLReady"]  += new Action(LoadInfo);
+            EventHandlers["onMySQLReady"] += new Action(LoadInfo);
             EventHandlers["esx:playerLoaded"] += new Action<int>(LoadInfoForPlayer);
         }
 
@@ -27,7 +26,7 @@ namespace disc_inventoryhud_server.Inventory.Info
         {
             MySQLHandler.Instance?.FetchAll("SELECT * FROM disc_inventory_itemdata", new Dictionary<string, object>(), new Action<List<dynamic>>((objs) =>
             {
-                foreach(dynamic obj in objs)
+                foreach (dynamic obj in objs)
                 {
                     itemDatas.Add(obj.item, new ItemData
                     {
@@ -44,7 +43,14 @@ namespace disc_inventoryhud_server.Inventory.Info
 
         public void LoadInfoForPlayer(int source)
         {
-            Players.First(player => player.Handle == source.ToString()).TriggerEvent(Events.UpdateInfo, itemDatas);
+            if (itemDatas.Count == 0)
+            {
+                LoadInfo();
+            }
+            else
+            {
+                Players[source].TriggerEvent(Events.UpdateInfo, itemDatas);
+            }
         }
     }
 }

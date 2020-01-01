@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 namespace disc_inventoryhud_server.Inventory.Info
 {
     public class ItemDataHandler : BaseScript
-    {       
-
+    {
         public ItemDataHandler()
         {
             EventHandlers[Events.UpdateInfo] += new Action<ExpandoObject>(UpdateInfo);

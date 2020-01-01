@@ -3,6 +3,7 @@ using CitizenFX.Core.Native;
 using disc_inventoryhud_common.Inv;
 using disc_inventoryhud_common.Inventory;
 using disc_inventoryhud_server.ESX;
+using disc_inventoryhud_server.Inventory.Info;
 using disc_inventoryhud_server.MySQL;
 using Newtonsoft.Json;
 using System;
@@ -39,6 +40,7 @@ namespace disc_inventoryhud_server.Inventory
             if (OpenInventories.ContainsKey(kpInv)) return;
             OpenInventories[kpInv] = player.Handle;
             var kpHotbar= new KeyValuePair<string, string>("hotbar", xPlayer.identifier);
+            ItemDataHandler.Instance.LoadInfoForPlayer(int.Parse(player.Handle));
             player.TriggerEvent(Events.OpenInventory, LoadedInventories[kpInv], LoadedInventories[kpHotbar]);
         }
 
@@ -110,17 +112,13 @@ namespace disc_inventoryhud_server.Inventory
         public async void MoveItem([FromSource] Player player, IDictionary<string, dynamic> data)
         {
             var movingData = data.FirstOrDefault().Value;
-            var searchTo = false;
-            var searchFrom = false;
             if(movingData.typeFrom == "search")
             {
                 movingData.typeFrom = "player";
-                searchFrom = true;
             }
             if (movingData.typeTo == "search")
             {
                 movingData.typeTo = "player";
-                searchTo = true;
             }
 
             if (movingData.typeFrom == movingData.typeTo && movingData.ownerFrom == movingData.ownerTo)
@@ -238,15 +236,6 @@ namespace disc_inventoryhud_server.Inventory
             if (movingData.typeFrom == "drop" || movingData.typeTo == "drop")
             {
                 Drop.Instance.SyncDrops();
-            }
-            await Delay(1000);
-            if(searchFrom)
-            {
-                SyncPlayer(Players[ESXHandler.Instance.GetPlayerFromIdentifier(movingData.ownerFrom).source]);
-            }
-            if (searchTo)
-            {
-                SyncPlayer(Players[ESXHandler.Instance.GetPlayerFromIdentifier(movingData.ownerTo).source]);
             }
         }
 

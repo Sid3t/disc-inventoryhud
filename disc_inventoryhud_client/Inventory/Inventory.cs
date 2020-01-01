@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using disc_inventoryhud_client.Utils;
 using Newtonsoft.Json;
 using disc_inventoryhud_common.Inventory;
+using disc_inventoryhud_server.Inventory.Info;
 
 namespace disc_inventoryhud_client.Inventory
 {
