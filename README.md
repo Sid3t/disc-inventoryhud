@@ -3,7 +3,13 @@ The ACTUAL real code for the inventoryhud that is not broken
 
 # ESX Compatibility
 
-This is a fork for use with the inventory (Does not include kashacters support) [Rex's ESX](https://github.com/rex2630/es_extended)
+This is a fork for use with the inventory [Rex's ESX](https://github.com/rex2630/es_extended)
+
+## Remove Item Event
+
+```lua
+TriggerEvent('disc-inventoryhud:removeItem', source, item.Id, 1, item.Slot, item.Inventory)
+```
 
 # BETA
 
