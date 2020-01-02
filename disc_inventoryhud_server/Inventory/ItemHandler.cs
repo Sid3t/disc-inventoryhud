@@ -137,7 +137,7 @@ namespace disc_inventoryhud_server.Inventory
 
         private int FindFreeSlot(Dictionary<int, InventorySlot> inv)
         {
-            for (int i = 1; i < inv.Count(); i++)
+            for (int i = 1; i <= inv.Count(); i++)
             {
                 if (!inv.ContainsKey(i)) return i;
             }
