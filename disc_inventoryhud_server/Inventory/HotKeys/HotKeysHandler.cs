@@ -1,6 +1,7 @@
 ﻿using CitizenFX.Core;
 using disc_inventoryhud_common.Inventory;
 using disc_inventoryhud_server.ESX;
+using disc_inventoryhud_server.Inventory.Weapon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,18 +24,25 @@ namespace disc_inventoryhud_server.Inventory.HotKeys
             if (Inventory.Instance.LoadedInventories[kp].Inventory.ContainsKey(slot))
             {
                 var item = Inventory.Instance.LoadedInventories[kp].Inventory[slot];
-                dynamic obj = new
+                if (item.Id.StartsWith("WEAPON_"))
                 {
-                    Id = item.Id,
-                    Count = item.Count,
-                    Inventory = "hotbar",
-                    Slot = slot
-                };
-                if (ItemHandler.Instance.ItemUsages.ContainsKey(item.Id))
+                    WeaponHandler.Instance.HandleWeapon(player, item, slot, "hotbar");
+                }
+                else
                 {
-                    foreach (var action in ItemHandler.Instance.ItemUsages[item.Id])
+                    dynamic obj = new
                     {
-                        action.Invoke(player.Handle, obj);
+                        item.Id,
+                        item.Count,
+                        Inventory = "hotbar",
+                        Slot = slot
+                    };
+                    if (ItemHandler.Instance.ItemUsages.ContainsKey(item.Id))
+                    {
+                        foreach (var action in ItemHandler.Instance.ItemUsages[item.Id])
+                        {
+                            action.Invoke(player.Handle, obj);
+                        }
                     }
                 }
             }

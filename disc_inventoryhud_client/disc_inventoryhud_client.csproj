@@ -82,6 +82,7 @@
     <Compile Include="Inventory\Stash\Stash.cs" />
     <Compile Include="Inventory\Stash\StashHandler.cs" />
     <Compile Include="Inventory\Vehicle\VehicleHandler.cs" />
+    <Compile Include="Inventory\Weapon\WeaponHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Utils\Callbacks.cs" />
     <Compile Include="Utils\NUI.cs" />

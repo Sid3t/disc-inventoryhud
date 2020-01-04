@@ -62,6 +62,7 @@
     <Compile Include="Inventory\Search\SearchHandler.cs" />
     <Compile Include="Inventory\Stash\StashHandler.cs" />
     <Compile Include="Inventory\Vehicle\VehicleHandler.cs" />
+    <Compile Include="Inventory\Weapon\WeaponHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MySQL\MySQLHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

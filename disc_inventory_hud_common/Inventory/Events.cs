@@ -28,5 +28,7 @@ namespace disc_inventoryhud_common.Inventory
         public const string RemoveStash = prefix + "removeStash";
         public const string HotKeyUse = prefix + "hotkeyUse";
         public const string CloseInventory = prefix + "closeInventory";
+        public const string UseWeapon = prefix + "useWeapon";
+        public const string UpdateAmmo = prefix + "updateAmmo";
     }
 }
