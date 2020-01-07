@@ -31,6 +31,8 @@ namespace disc_inventoryhud_server.Inventory
             EventHandlers[Events.MoveItem] += new Action<Player, IDictionary<string, dynamic>>(MoveItem);
             EventHandlers[Events.CloseInventory] += new Action<string>(CloseInventory);
             EventHandlers[Events.OpenInventory] += new Action<Player>(OpenInventory);
+            EventHandlers[Events.HasItem] += new Action<Player, string, CallbackDelegate>(HasItem);
+
         }
 
         public void OpenInventory([FromSource] Player player)
@@ -271,6 +273,15 @@ namespace disc_inventoryhud_server.Inventory
                 ["@type"] = data.Type,
                 ["@slot"] = slot,
             }, new Action<int>(_ => { }));
+        }
+
+        public void HasItem([FromSource] Player player, string item, CallbackDelegate cb)
+        {
+            var playerKP = new KeyValuePair<string, string>("player", player.Identifiers["steam"]);
+            var hotbarKP = new KeyValuePair<string, string>("hotbar", player.Identifiers["steam"]);
+            var playerHas = LoadedInventories[playerKP].Inventory.Values.Any(value => value.Id == item);
+            var hotbarHas = LoadedInventories[hotbarKP].Inventory.Values.Any(value => value.Id == item);
+            cb.Invoke(playerHas || hotbarHas);
         }
     }
 }

@@ -30,5 +30,6 @@ namespace disc_inventoryhud_common.Inventory
         public const string CloseInventory = prefix + "closeInventory";
         public const string UseWeapon = prefix + "useWeapon";
         public const string UpdateAmmo = prefix + "updateAmmo";
+        public const string HasItem = prefix + "hasItem";
     }
 }
